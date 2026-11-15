@@ -3,6 +3,7 @@
 
 # 预览截图 / 构建产物
 .preview/
+*.xpi
 
 # 图标库测试集与缓存
 .iconfont/test/
