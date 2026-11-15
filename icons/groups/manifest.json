@@ -1,0 +1,815 @@
+{
+  "source": "https://www.iconfont.cn/collections/detail?cid=9402",
+  "collection": "Ant Design 官方图标库",
+  "creator": "竹尔",
+  "license": "free",
+  "generatedBy": ".iconfont/build-group-icons.py",
+  "curatedBy": "curated-9402.json（从 599 个图标中挑选）",
+  "count": 134,
+  "icons": [
+    {
+      "id": "ad-4766685",
+      "name": "首页",
+      "en": "home",
+      "file": "ad-4766685.svg"
+    },
+    {
+      "id": "ad-4765962",
+      "name": "应用商店",
+      "en": "app store",
+      "file": "ad-4765962.svg"
+    },
+    {
+      "id": "ad-6598323",
+      "name": "添加应用",
+      "en": "appstore add",
+      "file": "ad-6598323.svg"
+    },
+    {
+      "id": "ad-4765881",
+      "name": "仪表盘",
+      "en": "dashboard",
+      "file": "ad-4765881.svg"
+    },
+    {
+      "id": "ad-4765975",
+      "name": "项目",
+      "en": "project",
+      "file": "ad-4765975.svg"
+    },
+    {
+      "id": "ad-4766464",
+      "name": "解决方案",
+      "en": "solution",
+      "file": "ad-4766464.svg"
+    },
+    {
+      "id": "ad-4765966",
+      "name": "布局",
+      "en": "layout",
+      "file": "ad-4765966.svg"
+    },
+    {
+      "id": "ad-4765969",
+      "name": "控制台",
+      "en": "control",
+      "file": "ad-4765969.svg"
+    },
+    {
+      "id": "ad-4765891",
+      "name": "设置",
+      "en": "setting",
+      "file": "ad-4765891.svg"
+    },
+    {
+      "id": "ad-4766874",
+      "name": "调节",
+      "en": "sliders",
+      "file": "ad-4766874.svg"
+    },
+    {
+      "id": "ad-4766872",
+      "name": "构建",
+      "en": "build",
+      "file": "ad-4766872.svg"
+    },
+    {
+      "id": "ad-4766973",
+      "name": "工具",
+      "en": "wrench",
+      "file": "ad-4766973.svg"
+    },
+    {
+      "id": "ad-4766679",
+      "name": "实验",
+      "en": "experiment",
+      "file": "ad-4766679.svg"
+    },
+    {
+      "id": "ad-4766678",
+      "name": "灵感",
+      "en": "bulb",
+      "file": "ad-4766678.svg"
+    },
+    {
+      "id": "ad-4936460",
+      "name": "热门",
+      "en": "fire",
+      "file": "ad-4936460.svg"
+    },
+    {
+      "id": "ad-4936461",
+      "name": "闪电",
+      "en": "thunderbolt",
+      "file": "ad-4936461.svg"
+    },
+    {
+      "id": "ad-4766954",
+      "name": "收藏",
+      "en": "star",
+      "file": "ad-4766954.svg"
+    },
+    {
+      "id": "ad-4766951",
+      "name": "喜欢",
+      "en": "heart",
+      "file": "ad-4766951.svg"
+    },
+    {
+      "id": "ad-4766692",
+      "name": "点赞",
+      "en": "like",
+      "file": "ad-4766692.svg"
+    },
+    {
+      "id": "ad-4765739",
+      "name": "生活",
+      "en": "smile",
+      "file": "ad-4765739.svg"
+    },
+    {
+      "id": "ad-4766681",
+      "name": "奖杯",
+      "en": "trophy",
+      "file": "ad-4766681.svg"
+    },
+    {
+      "id": "ad-4936455",
+      "name": "皇冠",
+      "en": "crown",
+      "file": "ad-4936455.svg"
+    },
+    {
+      "id": "ad-4766767",
+      "name": "标记",
+      "en": "flag",
+      "file": "ad-4766767.svg"
+    },
+    {
+      "id": "ad-4936458",
+      "name": "礼物",
+      "en": "gift",
+      "file": "ad-4936458.svg"
+    },
+    {
+      "id": "ad-4766686",
+      "name": "银行",
+      "en": "bank",
+      "file": "ad-4766686.svg"
+    },
+    {
+      "id": "ad-4765976",
+      "name": "钱包",
+      "en": "wallet",
+      "file": "ad-4765976.svg"
+    },
+    {
+      "id": "ad-4766773",
+      "name": "理财",
+      "en": "money collect",
+      "file": "ad-4766773.svg"
+    },
+    {
+      "id": "ad-4766921",
+      "name": "银行卡",
+      "en": "credit card",
+      "file": "ad-4766921.svg"
+    },
+    {
+      "id": "ad-4766920",
+      "name": "证件",
+      "en": "id card",
+      "file": "ad-4766920.svg"
+    },
+    {
+      "id": "ad-4766453",
+      "name": "红包",
+      "en": "red envelope",
+      "file": "ad-4766453.svg"
+    },
+    {
+      "id": "ad-4765723",
+      "name": "美元",
+      "en": "Dollar",
+      "file": "ad-4765723.svg"
+    },
+    {
+      "id": "ad-4765744",
+      "name": "人民币",
+      "en": "YUAN",
+      "file": "ad-4765744.svg"
+    },
+    {
+      "id": "ad-4765812",
+      "name": "交易",
+      "en": "transaction",
+      "file": "ad-4765812.svg"
+    },
+    {
+      "id": "ad-4766916",
+      "name": "基金",
+      "en": "fund",
+      "file": "ad-4766916.svg"
+    },
+    {
+      "id": "ad-4767045",
+      "name": "股票",
+      "en": "stock",
+      "file": "ad-4767045.svg"
+    },
+    {
+      "id": "ad-4765978",
+      "name": "计算器",
+      "en": "calculator",
+      "file": "ad-4765978.svg"
+    },
+    {
+      "id": "ad-4766854",
+      "name": "账本",
+      "en": "account book",
+      "file": "ad-4766854.svg"
+    },
+    {
+      "id": "ad-4766460",
+      "name": "对账",
+      "en": "reconciliation",
+      "file": "ad-4766460.svg"
+    },
+    {
+      "id": "ad-4766507",
+      "name": "审计",
+      "en": "audit",
+      "file": "ad-4766507.svg"
+    },
+    {
+      "id": "ad-4765735",
+      "name": "播放",
+      "en": "play-circle",
+      "file": "ad-4765735.svg"
+    },
+    {
+      "id": "ad-4765968",
+      "name": "影音",
+      "en": "play-square",
+      "file": "ad-4765968.svg"
+    },
+    {
+      "id": "ad-4766905",
+      "name": "视频",
+      "en": "video",
+      "file": "ad-4766905.svg"
+    },
+    {
+      "id": "ad-4766883",
+      "name": "相机",
+      "en": "camera",
+      "file": "ad-4766883.svg"
+    },
+    {
+      "id": "ad-4766907",
+      "name": "声音",
+      "en": "sound",
+      "file": "ad-4766907.svg"
+    },
+    {
+      "id": "ad-5756281",
+      "name": "音频",
+      "en": "audio",
+      "file": "ad-5756281.svg"
+    },
+    {
+      "id": "ad-4766762",
+      "name": "客服",
+      "en": "customerservice",
+      "file": "ad-4766762.svg"
+    },
+    {
+      "id": "ad-4766906",
+      "name": "通知",
+      "en": "notification",
+      "file": "ad-4766906.svg"
+    },
+    {
+      "id": "ad-4765866",
+      "name": "消息",
+      "en": "message",
+      "file": "ad-4765866.svg"
+    },
+    {
+      "id": "ad-6598316",
+      "name": "评论",
+      "en": "comment",
+      "file": "ad-6598316.svg"
+    },
+    {
+      "id": "ad-4766918",
+      "name": "邮件",
+      "en": "mail",
+      "file": "ad-4766918.svg"
+    },
+    {
+      "id": "ad-4766680",
+      "name": "铃铛",
+      "en": "bell",
+      "file": "ad-4766680.svg"
+    },
+    {
+      "id": "ad-4766917",
+      "name": "图片",
+      "en": "image",
+      "file": "ad-4766917.svg"
+    },
+    {
+      "id": "ad-4767106",
+      "name": "配色",
+      "en": "bg-colors",
+      "file": "ad-4767106.svg"
+    },
+    {
+      "id": "ad-8094817",
+      "name": "格式刷",
+      "en": "format painter",
+      "file": "ad-8094817.svg"
+    },
+    {
+      "id": "ad-4766963",
+      "name": "高亮",
+      "en": "highlight",
+      "file": "ad-4766963.svg"
+    },
+    {
+      "id": "ad-4766959",
+      "name": "编辑",
+      "en": "edit",
+      "file": "ad-4766959.svg"
+    },
+    {
+      "id": "ad-4766861",
+      "name": "扫描",
+      "en": "scan",
+      "file": "ad-4766861.svg"
+    },
+    {
+      "id": "ad-4766912",
+      "name": "二维码",
+      "en": "qrcode",
+      "file": "ad-4766912.svg"
+    },
+    {
+      "id": "ad-4766882",
+      "name": "条码",
+      "en": "barcode",
+      "file": "ad-4766882.svg"
+    },
+    {
+      "id": "ad-4766478",
+      "name": "文件",
+      "en": "file",
+      "file": "ad-4766478.svg"
+    },
+    {
+      "id": "ad-4766480",
+      "name": "文档",
+      "en": "file-text",
+      "file": "ad-4766480.svg"
+    },
+    {
+      "id": "ad-4766459",
+      "name": "已完成",
+      "en": "file done",
+      "file": "ad-4766459.svg"
+    },
+    {
+      "id": "ad-4766468",
+      "name": "新建文件",
+      "en": "file-add",
+      "file": "ad-4766468.svg"
+    },
+    {
+      "id": "ad-4766473",
+      "name": "图片文件",
+      "en": "file-image",
+      "file": "ad-4766473.svg"
+    },
+    {
+      "id": "ad-4766472",
+      "name": "PDF",
+      "en": "file-pdf",
+      "file": "ad-4766472.svg"
+    },
+    {
+      "id": "ad-4766477",
+      "name": "Word",
+      "en": "file-word",
+      "file": "ad-4766477.svg"
+    },
+    {
+      "id": "ad-4766469",
+      "name": "Excel",
+      "en": "file-excel",
+      "file": "ad-4766469.svg"
+    },
+    {
+      "id": "ad-4766476",
+      "name": "PPT",
+      "en": "file-ppt",
+      "file": "ad-4766476.svg"
+    },
+    {
+      "id": "ad-4766479",
+      "name": "压缩包",
+      "en": "file-zip",
+      "file": "ad-4766479.svg"
+    },
+    {
+      "id": "ad-4766474",
+      "name": "Markdown",
+      "en": "file-markdown",
+      "file": "ad-4766474.svg"
+    },
+    {
+      "id": "ad-4766482",
+      "name": "代码片段",
+      "en": "snippets",
+      "file": "ad-4766482.svg"
+    },
+    {
+      "id": "ad-4766888",
+      "name": "阅读",
+      "en": "read",
+      "file": "ad-4766888.svg"
+    },
+    {
+      "id": "ad-4766454",
+      "name": "书籍",
+      "en": "book",
+      "file": "ad-4766454.svg"
+    },
+    {
+      "id": "ad-4766846",
+      "name": "文件夹",
+      "en": "folder",
+      "file": "ad-4766846.svg"
+    },
+    {
+      "id": "ad-4766847",
+      "name": "打开的文件夹",
+      "en": "folder-open",
+      "file": "ad-4766847.svg"
+    },
+    {
+      "id": "ad-4766848",
+      "name": "新建文件夹",
+      "en": "folder-add",
+      "file": "ad-4766848.svg"
+    },
+    {
+      "id": "ad-9230693",
+      "name": "文件夹视图",
+      "en": "folder-view",
+      "file": "ad-9230693.svg"
+    },
+    {
+      "id": "ad-4766975",
+      "name": "标签组",
+      "en": "tags",
+      "file": "ad-4766975.svg"
+    },
+    {
+      "id": "ad-4766972",
+      "name": "标签",
+      "en": "tag",
+      "file": "ad-4766972.svg"
+    },
+    {
+      "id": "ad-4766969",
+      "name": "固定",
+      "en": "pushpin",
+      "file": "ad-4766969.svg"
+    },
+    {
+      "id": "ad-4766958",
+      "name": "附件",
+      "en": "attachment",
+      "file": "ad-4766958.svg"
+    },
+    {
+      "id": "ad-4766965",
+      "name": "链接",
+      "en": "link",
+      "file": "ad-4766965.svg"
+    },
+    {
+      "id": "ad-4766985",
+      "name": "分享",
+      "en": "share",
+      "file": "ad-4766985.svg"
+    },
+    {
+      "id": "ad-4767091",
+      "name": "代码",
+      "en": "code",
+      "file": "ad-4767091.svg"
+    },
+    {
+      "id": "ad-4765970",
+      "name": "代码库",
+      "en": "code library",
+      "file": "ad-4765970.svg"
+    },
+    {
+      "id": "ad-4766961",
+      "name": "接口",
+      "en": "api",
+      "file": "ad-4766961.svg"
+    },
+    {
+      "id": "ad-6598314",
+      "name": "缺陷",
+      "en": "bug",
+      "file": "ad-6598314.svg"
+    },
+    {
+      "id": "ad-4766439",
+      "name": "数据库",
+      "en": "database",
+      "file": "ad-4766439.svg"
+    },
+    {
+      "id": "ad-4766438",
+      "name": "容器",
+      "en": "container",
+      "file": "ad-4766438.svg"
+    },
+    {
+      "id": "ad-4766884",
+      "name": "集群",
+      "en": "cluster",
+      "file": "ad-4766884.svg"
+    },
+    {
+      "id": "ad-4766440",
+      "name": "服务器",
+      "en": "sever",
+      "file": "ad-4766440.svg"
+    },
+    {
+      "id": "ad-4766885",
+      "name": "网关",
+      "en": "gateway",
+      "file": "ad-4766885.svg"
+    },
+    {
+      "id": "ad-4766902",
+      "name": "云",
+      "en": "cloud",
+      "file": "ad-4766902.svg"
+    },
+    {
+      "id": "ad-4766900",
+      "name": "云服务",
+      "en": "cloud-server",
+      "file": "ad-4766900.svg"
+    },
+    {
+      "id": "ad-4766957",
+      "name": "无线",
+      "en": "wifi",
+      "file": "ad-4766957.svg"
+    },
+    {
+      "id": "ad-4766881",
+      "name": "笔记本",
+      "en": "laptop",
+      "file": "ad-4766881.svg"
+    },
+    {
+      "id": "ad-4936457",
+      "name": "台式机",
+      "en": "desktop",
+      "file": "ad-4936457.svg"
+    },
+    {
+      "id": "ad-4766451",
+      "name": "手机",
+      "en": "mobile",
+      "file": "ad-4766451.svg"
+    },
+    {
+      "id": "ad-4766452",
+      "name": "平板",
+      "en": "tablet",
+      "file": "ad-4766452.svg"
+    },
+    {
+      "id": "ad-4766964",
+      "name": "监控",
+      "en": "monitor",
+      "file": "ad-4766964.svg"
+    },
+    {
+      "id": "ad-4766887",
+      "name": "打印机",
+      "en": "printer",
+      "file": "ad-4766887.svg"
+    },
+    {
+      "id": "ad-4766683",
+      "name": "U盘",
+      "en": "USB",
+      "file": "ad-4766683.svg"
+    },
+    {
+      "id": "ad-5756283",
+      "name": "机器人",
+      "en": "robot",
+      "file": "ad-5756283.svg"
+    },
+    {
+      "id": "ad-9230690",
+      "name": "目标",
+      "en": "aim",
+      "file": "ad-9230690.svg"
+    },
+    {
+      "id": "ad-9230691",
+      "name": "压缩",
+      "en": "compress",
+      "file": "ad-9230691.svg"
+    },
+    {
+      "id": "ad-8094809",
+      "name": "合并",
+      "en": "merge-cells",
+      "file": "ad-8094809.svg"
+    },
+    {
+      "id": "ad-4766779",
+      "name": "购物",
+      "en": "shopping",
+      "file": "ad-4766779.svg"
+    },
+    {
+      "id": "ad-4766775",
+      "name": "商店",
+      "en": "shop",
+      "file": "ad-4766775.svg"
+    },
+    {
+      "id": "ad-4766886",
+      "name": "汽车",
+      "en": "car",
+      "file": "ad-4766886.svg"
+    },
+    {
+      "id": "ad-4766778",
+      "name": "火箭",
+      "en": "rocket",
+      "file": "ad-4766778.svg"
+    },
+    {
+      "id": "ad-4765724",
+      "name": "指南针",
+      "en": "compass",
+      "file": "ad-4765724.svg"
+    },
+    {
+      "id": "ad-4765743",
+      "name": "全球",
+      "en": "earth",
+      "file": "ad-4765743.svg"
+    },
+    {
+      "id": "ad-4765897",
+      "name": "位置",
+      "en": "location",
+      "file": "ad-4765897.svg"
+    },
+    {
+      "id": "ad-4766682",
+      "name": "休息",
+      "en": "rest",
+      "file": "ad-4766682.svg"
+    },
+    {
+      "id": "ad-4766684",
+      "name": "皮肤",
+      "en": "skin",
+      "file": "ad-4766684.svg"
+    },
+    {
+      "id": "ad-4766294",
+      "name": "团队",
+      "en": "team",
+      "file": "ad-4766294.svg"
+    },
+    {
+      "id": "ad-4766293",
+      "name": "用户",
+      "en": "user",
+      "file": "ad-4766293.svg"
+    },
+    {
+      "id": "ad-4766855",
+      "name": "联系人",
+      "en": "contacts",
+      "file": "ad-4766855.svg"
+    },
+    {
+      "id": "ad-4766774",
+      "name": "医疗",
+      "en": "medicinebox",
+      "file": "ad-4766774.svg"
+    },
+    {
+      "id": "ad-4766514",
+      "name": "保险",
+      "en": "insurance ",
+      "file": "ad-4766514.svg"
+    },
+    {
+      "id": "ad-4766513",
+      "name": "安全认证",
+      "en": "safety certificate",
+      "file": "ad-4766513.svg"
+    },
+    {
+      "id": "ad-4766511",
+      "name": "安全扫描",
+      "en": "security scan",
+      "file": "ad-4766511.svg"
+    },
+    {
+      "id": "ad-4766512",
+      "name": "财产安全",
+      "en": "property safety",
+      "file": "ad-4766512.svg"
+    },
+    {
+      "id": "ad-4766675",
+      "name": "警告",
+      "en": "alert",
+      "file": "ad-4766675.svg"
+    },
+    {
+      "id": "ad-4765746",
+      "name": "警示",
+      "en": "warning-circle",
+      "file": "ad-4765746.svg"
+    },
+    {
+      "id": "ad-4765727",
+      "name": "信息",
+      "en": "info-circle",
+      "file": "ad-4765727.svg"
+    },
+    {
+      "id": "ad-4765736",
+      "name": "帮助",
+      "en": "question-circle",
+      "file": "ad-4765736.svg"
+    },
+    {
+      "id": "ad-4766858",
+      "name": "日历",
+      "en": "calendar",
+      "file": "ad-4766858.svg"
+    },
+    {
+      "id": "ad-4765741",
+      "name": "时间",
+      "en": "time-circle",
+      "file": "ad-4765741.svg"
+    },
+    {
+      "id": "ad-4766677",
+      "name": "沙漏",
+      "en": "hourglass",
+      "file": "ad-4766677.svg"
+    },
+    {
+      "id": "ad-4765811",
+      "name": "同步",
+      "en": "sync",
+      "file": "ad-4765811.svg"
+    },
+    {
+      "id": "ad-4766695",
+      "name": "锁定",
+      "en": "lock",
+      "file": "ad-4766695.svg"
+    },
+    {
+      "id": "ad-4766694",
+      "name": "解锁",
+      "en": "unlock",
+      "file": "ad-4766694.svg"
+    },
+    {
+      "id": "ad-4766960",
+      "name": "密钥",
+      "en": "key",
+      "file": "ad-4766960.svg"
+    }
+  ]
+}

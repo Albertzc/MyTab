@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyTab</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidenav" id="sidenav" aria-label="分组导航">
+  <nav class="snav-list" id="snavList"></nav>
+
+  <div class="snav-actions">
+    <button class="snav-btn" id="snavAdd" type="button" title="新建分组" aria-label="新建分组">
+      <span class="snav-btn-ico">＋</span>
+    </button>
+  </div>
+
+  <div class="snav-sep"></div>
+  <button class="snav-btn" id="settingsBtn" type="button" title="设置" aria-label="设置">
+    <span class="snav-btn-ico">⚙</span>
+  </button>
+</aside>
+
+<main class="stage">
+  <section class="hero" id="hero" title="点击缩小 / 恢复时间显示">
+    <div class="clock" id="clock"><span id="timeText">--:--</span><span class="ampm" id="ampm"></span></div>
+    <div class="date" id="date">----</div>
+  </section>
+
+  <section class="search-box" id="searchBox">
+    <span class="search-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </span>
+    <input class="search-input" id="searchInput" type="text" placeholder="搜索，或输入网址" autocomplete="off" spellcheck="false">
+    <button class="engine-btn" id="engineBtn" type="button"><span id="engineName">百度</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <ul class="engine-menu" id="engineMenu"></ul>
+  </section>
+
+  <section class="view view-all active" id="viewAll">
+    <div class="folder-grid" id="folderGrid"></div>
+  </section>
+
+  <section class="view view-group" id="viewGroup">
+    <div class="tiles-row" id="tilesRow">
+      <button type="button" class="pager-btn pager-side" id="pagerPrev" aria-label="上一页">‹</button>
+      <section class="tiles" id="tiles"></section>
+      <button type="button" class="pager-btn pager-side" id="pagerNext" aria-label="下一页">›</button>
+    </div>
+
+    <div class="tiles-bar" id="tilesBar">
+      <span class="pager-info" id="pagerInfo">1 / 1</span>
+    </div>
+  </section>
+</main>
+
+<div class="mask" id="mask"></div>
+
+<aside class="panel" id="panel" aria-label="设置面板">
+  <button class="close" id="panelClose" type="button" aria-label="关闭">✕</button>
+  <h2>设置</h2>
+  <div class="sub">所有数据仅保存在本机浏览器，不上传、无账号、无广告。</div>
+
+  <h3>外观</h3>
+  <div class="seg" id="themeSeg">
+    <button type="button" data-theme="system">跟随系统</button>
+    <button type="button" data-theme="light">浅色</button>
+    <button type="button" data-theme="dark">深色</button>
+  </div>
+
+  <h3>时间格式</h3>
+  <div class="seg" id="hourSeg">
+    <button type="button" data-hour="12">12 小时制</button>
+    <button type="button" data-hour="24">24 小时制</button>
+  </div>
+
+  <h3>背景 · 渐变</h3>
+  <div class="swatches" id="gradSwatches"></div>
+
+  <h3>背景 · 纯色</h3>
+  <div class="swatches" id="colorSwatches"></div>
+
+  <h3>背景 · 本地图片</h3>
+  <div class="upload-row">
+    <button type="button" id="uploadBtn">选择图片…</button>
+    <button type="button" id="bgReset">恢复默认</button>
+  </div>
+  <div class="hint">支持 jpg/png/webp，建议 ≤ 4MB</div>
+
+  <h3>磁贴</h3>
+  <div class="hint">拖动磁贴即可排序（无需进入编辑）。要增删改磁贴，在<b>页面空白处右键 →「编辑当前主页 / 编辑当前分组」</b>进入编辑模式：点击磁贴修改、右上角 ✕ 删除；右键磁贴可打开快捷菜单</div>
+  <label class="switch-row">
+    <span>显示磁贴名称</span>
+    <input type="checkbox" id="showNamesToggle">
+    <span class="switch"></span>
+  </label>
+
+  <h3>分组</h3>
+  <ul class="group-list" id="groupList"></ul>
+  <div class="engine-add">
+    <button type="button" id="groupAddBtn2">＋ 新建分组</button>
+  </div>
+  <div class="hint">点击分组名可编辑名称 / 图标；拖动左侧图标或主页卡片可排序；删除分组会同时删除组内磁贴</div>
+
+  <h3>每页布局</h3>
+  <div class="page-layout">
+    <label class="sel-label">行数
+      <select id="rowsSel">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </label>
+    <label class="sel-label">列数
+      <select id="colsSel">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7" selected>7</option>
+        <option value="8">8</option>
+      </select>
+    </label>
+  </div>
+  <div class="hint">放不下的磁贴自动进入下一页，磁贴下方可翻页</div>
+
+  <h3>搜索引擎</h3>
+  <ul class="engine-list" id="engineList"></ul>
+  <div class="engine-add">
+    <input id="engineNameInput" type="text" placeholder="名称，如 必应" maxlength="12">
+    <input id="engineUrlInput" type="text" placeholder="URL，含 {q}，如 https://…/search?q={q}">
+    <button type="button" id="engineAddBtn">添加</button>
+  </div>
+  <div class="hint">拖动列表可调整顺序，<b>第一位为默认搜索引擎</b>；URL 用 <b>{q}</b> 表示搜索词。点「编辑」可改内置引擎的名称与网址（不会改动 MyTab 自带的默认值），点「删除」可移除不用的条目。</div>
+
+  <h3>数据备份</h3>
+  <div class="upload-row">
+    <button type="button" id="exportBtn">导出配置</button>
+    <button type="button" id="importBtn">导入配置</button>
+  </div>
+  <label class="switch-row">
+    <span>导出时包含背景图片</span>
+    <input type="checkbox" id="exportBgToggle">
+    <span class="switch"></span>
+  </label>
+  <div class="hint">导出为一个 <b>ZIP 压缩包</b>：里面是配置文件（分组、磁贴、搜索引擎、外观设置）和你的背景图片。导入时选同样的压缩包即可；也兼容旧版导出的单个 JSON 文件。<b>导入会覆盖当前的全部配置</b>，建议先导出一份备份。</div>
+
+  <h3>关于</h3>
+  <div class="about">
+    MyTab v2.0.0 · 本地快速、零账号、零追踪的新标签页。<br>
+    数据只存于本机 localStorage，不上传、无账号、无广告。<br>
+    恢复默认外观：点「背景 · 渐变」里的第二个色块（ocean），或点「背景 · 本地图片」下的「恢复默认」；磁贴与分组数据可用下方的「全部恢复默认」重置。<br>
+    快捷键：按 <b>/</b> 聚焦搜索框。
+  </div>
+
+  <h3>重置</h3>
+  <div class="upload-row">
+    <button type="button" id="resetAllBtn" class="dangerbtn">全部恢复默认</button>
+  </div>
+  <div class="hint">把所有配置恢复为初始化状态：外观、分组、磁贴、搜索引擎全部回到出厂值。<b>当前配置会被清空且无法撤销</b>，建议先「导出配置」留一份备份。</div>
+</aside>
+
+<div class="dialog" id="dialog">
+  <div class="dialog-card">
+    <h3 id="dialogTitle">添加磁贴</h3>
+    <label for="tileName">名称</label>
+    <input id="tileName" type="text" placeholder="例如：哔哩哔哩" maxlength="12">
+    <label for="tileUrl">网址</label>
+    <input id="tileUrl" type="text" placeholder="例如：https://www.bilibili.com">
+    <label for="tileGroup">所属分组</label>
+    <select id="tileGroup"></select>
+    <label>图标</label>
+    <div class="icon-opts">
+      <label class="icon-opt"><input type="radio" name="tileIcon" value="auto"><span>自动获取网站图标</span></label>
+      <label class="icon-opt"><input type="radio" name="tileIcon" value="letter"><span>首字母</span></label>
+    </div>
+    <div class="icon-hint">「自动获取」由浏览器直接请求网站 favicon，失败自动回退首字母；成功获取的图标会缓存在本地。</div>
+    <div class="dialog-actions">
+      <button class="cancel" id="dialogCancel" type="button">取消</button>
+      <button class="ok" id="dialogOk" type="button">添加</button>
+    </div>
+  </div>
+</div>
+
+<div class="ctx-menu" id="ctxMenu" role="menu"></div>
+<div class="ctx-menu sub-menu" id="ctxSubMenu" role="menu"></div>
+
+<div class="dialog" id="engineDialog">
+  <div class="dialog-card">
+    <h3 id="edTitle">编辑搜索引擎</h3>
+    <label for="edName">名称</label>
+    <input id="edName" type="text" placeholder="例如：Bing" maxlength="12">
+    <label for="edUrl">网址</label>
+    <input id="edUrl" type="text" placeholder="含 {q}，如 https://…/search?q={q}">
+    <div class="icon-hint" id="edHint"></div>
+    <div class="dialog-actions">
+      <button class="cancel" id="edCancel" type="button">取消</button>
+      <button class="ok" id="edOk" type="button">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog" id="groupDialog">
+  <div class="dialog-card">
+    <h3 id="gdTitle">新建分组</h3>
+    <div id="gdNameRow">
+      <label for="gdName">分组名称</label>
+      <input id="gdName" type="text" placeholder="例如：工作 / 开发 / 影音" maxlength="12">
+    </div>
+    <div id="gdIconSection">
+      <label for="gdIconSearch">分组图标</label>
+      <input id="gdIconSearch" type="text" placeholder="搜索图标名称，如：首页 / 文件夹 / folder" autocomplete="off">
+      <div class="icon-pick" id="gdIconPick"></div>
+      <div class="icon-hint" id="gdIconHint"></div>
+    </div>
+    <div class="dialog-actions">
+      <button class="cancel" id="gdCancel" type="button">取消</button>
+      <button class="ok" id="gdOk" type="button">创建</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" hidden>
+<input type="file" id="importFileInput" accept="application/zip,application/json,.zip,.json" hidden>
+
+<script src="app.js"></script>
+</body>
+</html>

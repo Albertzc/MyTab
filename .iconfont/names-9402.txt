@@ -1,0 +1,599 @@
+ 1 | 4765721 | check-circle | 567 chars
+ 2 | 4765722 | CI | 813 chars
+ 3 | 4765723 | Dollar | 1035 chars
+ 4 | 4765724 | compass | 839 chars
+ 5 | 4765725 | close-circle | 662 chars
+ 6 | 4765726 | frown | 1041 chars
+ 7 | 4765727 | info-circle | 513 chars
+ 8 | 4765728 | left-circle | 559 chars
+ 9 | 4765729 | down-circle | 560 chars
+10 | 4765730 | EURO | 956 chars
+11 | 4765731 | copyright | 721 chars
+12 | 4765732 | minus-circle | 464 chars
+13 | 4765733 | meh | 917 chars
+14 | 4765734 | plus-circle | 560 chars
+15 | 4765735 | play-circle | 534 chars
+16 | 4765736 | question-circle | 804 chars
+17 | 4765737 | Pound | 895 chars
+18 | 4765738 | right-circle | 561 chars
+19 | 4765739 | smile | 1038 chars
+20 | 4765740 | trademark | 689 chars
+21 | 4765741 | time-circle | 537 chars
+22 | 4765742 | time out | 553 chars
+23 | 4765743 | earth | 3335 chars
+24 | 4765744 | YUAN | 817 chars
+25 | 4765745 | up-circle | 561 chars
+26 | 4765746 | warning-circle | 513 chars
+27 | 4765811 | sync | 1008 chars
+28 | 4765812 | transaction | 1491 chars
+29 | 4765837 | undo | 889 chars
+30 | 4765838 | redo | 903 chars
+31 | 4765852 | reload | 920 chars
+32 | 4765853 | reload time | 1111 chars
+33 | 4765866 | message | 1166 chars
+34 | 4765881 | dashboard | 1520 chars
+35 | 4765886 | issues close | 1162 chars
+36 | 4765887 | poweroff | 937 chars
+37 | 4765888 | logout | 975 chars
+38 | 4765890 | pie chart | 1062 chars
+39 | 4765891 | setting | 2122 chars
+40 | 4765896 | eye | 684 chars
+41 | 4765897 | location | 1164 chars
+42 | 4765957 | edit-square | 645 chars
+43 | 4765958 | export | 624 chars
+44 | 4765959 | save | 633 chars
+45 | 4765960 | Import | 623 chars
+46 | 4765962 | app store | 713 chars
+47 | 4765964 | close-square | 648 chars
+48 | 4765965 | down-square | 522 chars
+49 | 4765966 | layout | 388 chars
+50 | 4765967 | left-square | 521 chars
+51 | 4765968 | play-square | 456 chars
+52 | 4765969 | control | 5738 chars
+53 | 4765970 | code library | 621 chars
+54 | 4765971 | detail | 751 chars
+55 | 4765972 | minus-square | 426 chars
+56 | 4765973 | plus-square | 522 chars
+57 | 4765974 | right-square | 522 chars
+58 | 4765975 | project | 604 chars
+59 | 4765976 | wallet | 469 chars
+60 | 4765977 | up-square | 522 chars
+61 | 4765978 | calculator | 1175 chars
+62 | 4766245 | interation | 812 chars
+63 | 4766253 | check-square | 529 chars
+64 | 4766265 | border | 337 chars
+65 | 4766266 | border-outer | 777 chars
+66 | 4766268 | border-top | 1698 chars
+67 | 4766269 | border-bottom | 1698 chars
+68 | 4766270 | border-left | 1698 chars
+69 | 4766271 | border-right | 1698 chars
+70 | 4766276 | border-inner | 1377 chars
+71 | 4766277 | border-verticle | 1698 chars
+72 | 4766278 | border-horizontal | 1698 chars
+73 | 4766282 | radius-bottomleft | 1314 chars
+74 | 4766283 | radius-bottomright | 1313 chars
+75 | 4766284 | radius-upleft | 1312 chars
+76 | 4766285 | radius-upright | 1311 chars
+77 | 4766286 | radius-setting | 1588 chars
+78 | 4766289 | add user | 1109 chars
+79 | 4766290 | delete team | 1427 chars
+80 | 4766291 | delete user | 1017 chars
+81 | 4766292 | addteam | 1521 chars
+82 | 4766293 | user | 918 chars
+83 | 4766294 | team | 1506 chars
+84 | 4766297 | area chart | 473 chars
+85 | 4766298 | line chart | 557 chars
+86 | 4766299 | bar chart | 671 chars
+87 | 4766300 | point map | 517 chars
+88 | 4766438 | container | 720 chars
+89 | 4766439 | database | 532 chars
+90 | 4766440 | sever | 612 chars
+91 | 4766451 | mobile | 384 chars
+92 | 4766452 | tablet | 384 chars
+93 | 4766453 | red envelope | 936 chars
+94 | 4766454 | book | 494 chars
+95 | 4766459 | file done | 1042 chars
+96 | 4766460 | reconciliation | 899 chars
+97 | 4766461 | file -exception | 999 chars
+98 | 4766462 | file sync | 1221 chars
+99 | 4766463 | file search | 855 chars
+100 | 4766464 | solution | 1031 chars
+101 | 4766465 | file protect | 1033 chars
+102 | 4766468 | file-add | 625 chars
+103 | 4766469 | file-excel | 840 chars
+104 | 4766470 | file-exclamation | 578 chars
+105 | 4766472 | file-pdf | 1307 chars
+106 | 4766473 | file-image | 649 chars
+107 | 4766474 | file-markdown | 736 chars
+108 | 4766475 | file-unknown | 800 chars
+109 | 4766476 | file-ppt | 658 chars
+110 | 4766477 | file-word | 846 chars
+111 | 4766478 | file | 440 chars
+112 | 4766479 | file-zip | 606 chars
+113 | 4766480 | file-text | 618 chars
+114 | 4766481 | file-copy | 576 chars
+115 | 4766482 | snippets | 683 chars
+116 | 4766507 | audit | 863 chars
+117 | 4766508 | diff | 881 chars
+118 | 4766509 | Batch folding | 474 chars
+119 | 4766511 | security scan | 840 chars
+120 | 4766512 | property safety | 1004 chars
+121 | 4766513 | safety certificate | 705 chars
+122 | 4766514 | insurance  | 1297 chars
+123 | 4766675 | alert | 912 chars
+124 | 4766676 | delete | 570 chars
+125 | 4766677 | hourglass | 769 chars
+126 | 4766678 | bulb | 625 chars
+127 | 4766679 | experiment | 724 chars
+128 | 4766680 | bell | 632 chars
+129 | 4766681 | trophy | 774 chars
+130 | 4766682 | rest | 713 chars
+131 | 4766683 | USB | 655 chars
+132 | 4766684 | skin | 576 chars
+133 | 4766685 | home | 590 chars
+134 | 4766686 | bank | 522 chars
+135 | 4766688 | filter | 447 chars
+136 | 4766689 | funnel plot | 487 chars
+137 | 4766692 | like | 1059 chars
+138 | 4766693 | unlike | 1059 chars
+139 | 4766694 | unlock | 622 chars
+140 | 4766695 | lock | 601 chars
+141 | 4766762 | customerservice | 524 chars
+142 | 4766767 | flag | 481 chars
+143 | 4766773 | money collect | 975 chars
+144 | 4766774 | medicinebox | 669 chars
+145 | 4766775 | shop | 1297 chars
+146 | 4766778 | rocket | 1200 chars
+147 | 4766779 | shopping | 543 chars
+148 | 4766846 | folder | 399 chars
+149 | 4766847 | folder-open | 528 chars
+150 | 4766848 | folder-add | 616 chars
+151 | 4766849 | deployment unit | 1132 chars
+152 | 4766854 | account book | 975 chars
+153 | 4766855 | contacts | 1019 chars
+154 | 4766856 | carry out | 701 chars
+155 | 4766857 | calendar-check | 983 chars
+156 | 4766858 | calendar | 550 chars
+157 | 4766861 | scan | 763 chars
+158 | 4766862 | select | 585 chars
+159 | 4766871 | box plot | 530 chars
+160 | 4766872 | build | 472 chars
+161 | 4766874 | sliders | 888 chars
+162 | 4766881 | laptop | 528 chars
+163 | 4766882 | barcode | 1090 chars
+164 | 4766883 | camera | 683 chars
+165 | 4766884 | cluster | 1045 chars
+166 | 4766885 | gateway | 738 chars
+167 | 4766886 | car | 1032 chars
+168 | 4766887 | printer | 627 chars
+169 | 4766888 | read | 1199 chars
+170 | 4766900 | cloud-server | 1112 chars
+171 | 4766901 | cloud-upload | 1034 chars
+172 | 4766902 | cloud | 805 chars
+173 | 4766903 | cloud-download | 1035 chars
+174 | 4766904 | cloud-sync | 1535 chars
+175 | 4766905 | video | 538 chars
+176 | 4766906 | notification | 651 chars
+177 | 4766907 | sound | 949 chars
+178 | 4766911 | radar chart | 848 chars
+179 | 4766912 | qrcode | 1189 chars
+180 | 4766916 | fund | 576 chars
+181 | 4766917 | image | 634 chars
+182 | 4766918 | mail | 571 chars
+183 | 4766919 | table | 534 chars
+184 | 4766920 | id card | 947 chars
+185 | 4766921 | credit card | 451 chars
+186 | 4766951 | heart | 1002 chars
+187 | 4766952 | block | 489 chars
+188 | 4766953 | error | 506 chars
+189 | 4766954 | star | 711 chars
+190 | 4766955 | gold | 841 chars
+191 | 4766956 | heat map | 713 chars
+192 | 4766957 | wifi | 950 chars
+193 | 4766958 | attachment | 1044 chars
+194 | 4766959 | edit | 613 chars
+195 | 4766960 | key | 845 chars
+196 | 4766961 | api | 1290 chars
+197 | 4766962 | disconnect | 703 chars
+198 | 4766963 | highlight | 724 chars
+199 | 4766964 | monitor | 924 chars
+200 | 4766965 | link | 913 chars
+201 | 4766966 | man | 627 chars
+202 | 4766967 | percentage | 665 chars
+203 | 4766969 | pushpin | 870 chars
+204 | 4766970 | phone | 945 chars
+205 | 4766971 | shake | 817 chars
+206 | 4766972 | tag | 610 chars
+207 | 4766973 | wrench | 830 chars
+208 | 4766975 | tags | 753 chars
+209 | 4766982 | scissor | 771 chars
+210 | 4766984 | mr | 868 chars
+211 | 4766985 | share | 844 chars
+212 | 4766986 | branches | 796 chars
+213 | 4766995 | fork | 837 chars
+214 | 4767006 | shrink | 622 chars
+215 | 4767007 | arrawsalt | 624 chars
+216 | 4767009 | vertical right | 456 chars
+217 | 4767010 | vertical left | 453 chars
+218 | 4767011 | right | 392 chars
+219 | 4767012 | left | 389 chars
+220 | 4767013 | up | 389 chars
+221 | 4767014 | down | 388 chars
+222 | 4767015 | fullscreen | 1028 chars
+223 | 4767016 | fullscreen-exit | 1027 chars
+224 | 4767018 | doubleleft | 581 chars
+225 | 4767019 | double right | 585 chars
+226 | 4767020 | arrowright | 430 chars
+227 | 4767021 | arrowup | 420 chars
+228 | 4767022 | arrowleft | 423 chars
+229 | 4767023 | arrowdown | 427 chars
+230 | 4767025 | upload | 507 chars
+231 | 4767026 | colum-height | 604 chars
+232 | 4767027 | vertical-align-botto | 470 chars
+233 | 4767028 | vertical-align-middl | 628 chars
+234 | 4767029 | totop | 447 chars
+235 | 4767030 | vertical-align-top | 469 chars
+236 | 4767031 | download | 512 chars
+237 | 4767038 | sort-descending | 989 chars
+238 | 4767039 | sort-ascending | 987 chars
+239 | 4767043 | fall | 498 chars
+240 | 4767044 | swap | 530 chars
+241 | 4767045 | stock | 540 chars
+242 | 4767046 | rise | 493 chars
+243 | 4767050 | indent | 671 chars
+244 | 4767051 | outdent | 673 chars
+245 | 4767059 | menu | 468 chars
+246 | 4767060 | unordered list | 621 chars
+247 | 4767061 | ordered list | 979 chars
+248 | 4767062 | align-right | 557 chars
+249 | 4767063 | align-center | 557 chars
+250 | 4767064 | align-left | 557 chars
+251 | 4767072 | pic-center | 504 chars
+252 | 4767073 | pic-right | 678 chars
+253 | 4767074 | pic-left | 681 chars
+254 | 4767078 | bold | 589 chars
+255 | 4767079 | font-colors | 589 chars
+256 | 4767080 | exclaimination | 341 chars
+257 | 4767081 | font-size | 661 chars
+258 | 4767082 | infomation | 341 chars
+259 | 4767083 | line-height | 657 chars
+260 | 4767084 | strikethrough | 1348 chars
+261 | 4767085 | underline | 567 chars
+262 | 4767086 | number | 603 chars
+263 | 4767087 | italic | 399 chars
+264 | 4767091 | code | 969 chars
+265 | 4767092 | column-width | 607 chars
+266 | 4767093 | check | 395 chars
+267 | 4767094 | ellipsis | 354 chars
+268 | 4767095 | dash | 261 chars
+269 | 4767096 | close | 520 chars
+270 | 4767097 | enter | 381 chars
+271 | 4767098 | line | 290 chars
+272 | 4767099 | minus | 290 chars
+273 | 4767100 | question | 836 chars
+274 | 4767102 | rollback | 411 chars
+275 | 4767103 | small-dash | 296 chars
+276 | 4767104 | pause | 310 chars
+277 | 4767106 | bg-colors | 675 chars
+278 | 4936455 | crown | 703 chars
+279 | 4936456 | drag | 659 chars
+280 | 4936457 | desktop | 438 chars
+281 | 4936458 | gift | 757 chars
+282 | 4936459 | stop | 495 chars
+283 | 4936460 | fire | 1358 chars
+284 | 4936461 | thunderbolt | 461 chars
+285 | 4936478 | check-circle-fill | 479 chars
+286 | 4936479 | left-circle-fill | 472 chars
+287 | 4936480 | down-circle-fill | 473 chars
+288 | 4936481 | minus-circle-fill | 376 chars
+289 | 4936482 | close-circle-fill | 572 chars
+290 | 4936483 | info-circle-fill | 449 chars
+291 | 4936484 | up-circle-fill | 472 chars
+292 | 4936485 | right-circle-fill | 472 chars
+293 | 4936486 | plus-circle-fill | 472 chars
+294 | 4936487 | question-circle-fill | 741 chars
+295 | 4936499 | EURO-circle-fill | 865 chars
+296 | 4936500 | frown-fill | 642 chars
+297 | 4936501 | copyright-circle-fil | 633 chars
+298 | 4936502 | CI-circle-fill | 726 chars
+299 | 4936503 | compass-fill | 462 chars
+300 | 4936504 | Dollar-circle-fill | 958 chars
+301 | 4936505 | poweroff-circle-fill | 464 chars
+302 | 4936506 | meh-fill | 521 chars
+303 | 4936507 | play-circle-fill | 461 chars
+304 | 4936508 | Pound-circle-fill | 803 chars
+305 | 4936509 | smile-fill | 646 chars
+306 | 4936510 | stop-fill | 377 chars
+307 | 4936511 | warning-circle-fill | 449 chars
+308 | 4936512 | time-circle-fill | 456 chars
+309 | 4936513 | trademark-circle-fil | 609 chars
+310 | 4936514 | YUAN-circle-fill | 731 chars
+311 | 4936519 | heart-fill | 822 chars
+312 | 4936520 | pie chart-circle-fil | 786 chars
+313 | 4936521 | dashboard-fill | 1330 chars
+314 | 4936522 | message-fill | 936 chars
+315 | 4936529 | check-square-fill | 503 chars
+316 | 4936530 | down-square-fill | 497 chars
+317 | 4936531 | minus-square-fill | 400 chars
+318 | 4936532 | close-square-fill | 626 chars
+319 | 4936533 | code library-fill | 598 chars
+320 | 4936534 | left-square-fill | 494 chars
+321 | 4936535 | play-square-fill | 430 chars
+322 | 4936536 | up-square-fill | 496 chars
+323 | 4936537 | right-square-fill | 496 chars
+324 | 4936538 | plus-square-fill | 496 chars
+325 | 4936542 | account book-fill | 894 chars
+326 | 4936543 | carry out-fill | 587 chars
+327 | 4936544 | calendar-fill | 432 chars
+328 | 4936545 | calculator-fill | 1145 chars
+329 | 4936546 | interation-fill | 796 chars
+330 | 4936550 | project-fill | 579 chars
+331 | 4936571 | detail-fill | 794 chars
+332 | 4936575 | save-fill | 543 chars
+333 | 4936576 | wallet-fill | 386 chars
+334 | 4936577 | control-fill | 2955 chars
+335 | 4936583 | layout-fill | 361 chars
+336 | 4936584 | app store-fill | 609 chars
+337 | 4936585 | mobile-fill | 383 chars
+338 | 4936586 | tablet-fill | 383 chars
+339 | 4936587 | book-fill | 353 chars
+340 | 4936588 | red envelope-fill | 854 chars
+341 | 4936591 | safety certificate-f | 640 chars
+342 | 4936592 | property safety-fill | 947 chars
+343 | 4936598 | insurance-fill | 1240 chars
+344 | 4936599 | security scan-fill | 765 chars
+345 | 4936602 | file-exclamation-fil | 562 chars
+346 | 4936604 | file-add-fill | 567 chars
+347 | 4936605 | file-fill | 399 chars
+348 | 4936606 | file-excel-fill | 879 chars
+349 | 4936607 | file-markdown-fill | 882 chars
+350 | 4936608 | file-text-fill | 558 chars
+351 | 4936609 | file-ppt-fill | 694 chars
+352 | 4936610 | file-unknown-fill | 820 chars
+353 | 4936611 | file-word-fill | 857 chars
+354 | 4936612 | file-zip-fill | 602 chars
+355 | 4936613 | file-pdf-fill | 2356 chars
+356 | 4936615 | file-image-fill | 609 chars
+357 | 4936617 | diff-fill | 839 chars
+358 | 4936618 | file-copy-fill | 529 chars
+359 | 4936619 | snippets-fill | 630 chars
+360 | 4936620 | batch folding-fill | 517 chars
+361 | 4936621 | reconciliation-fill | 1016 chars
+362 | 4936622 | folder-add-fill | 571 chars
+363 | 4936623 | folder-fill | 356 chars
+364 | 4936624 | folder-open-fill | 486 chars
+365 | 4936626 | database-fill | 580 chars
+366 | 4936627 | container-fill | 768 chars
+367 | 4936628 | sever-fill | 611 chars
+368 | 4936629 | calendar-check-fill | 820 chars
+369 | 4936630 | image-fill | 621 chars
+370 | 4936631 | id card-fill | 927 chars
+371 | 4936633 | credit card-fill | 423 chars
+372 | 4936634 | fund-fill | 551 chars
+373 | 4936635 | read-fill | 985 chars
+374 | 4936636 | contacts-fill | 888 chars
+375 | 4936637 | delete-fill | 459 chars
+376 | 4936638 | notification-fill | 577 chars
+377 | 4936639 | flag-fill | 406 chars
+378 | 4936640 | money collect-fill | 924 chars
+379 | 4936641 | medicine box-fill | 618 chars
+380 | 4936642 | rest-fill | 647 chars
+381 | 4936643 | shopping-fill | 426 chars
+382 | 4936644 | skin-fill | 478 chars
+383 | 4936645 | video-fill | 513 chars
+384 | 4936646 | sound-fill | 883 chars
+385 | 4936649 | bulb-fill | 467 chars
+386 | 4936650 | bell-fill | 517 chars
+387 | 4936651 | filter-fill | 370 chars
+388 | 4936652 | fire-fill | 878 chars
+389 | 4936653 | funnel plot-fill | 397 chars
+390 | 4936654 | gift-fill | 666 chars
+391 | 4936655 | hourglass-fill | 508 chars
+392 | 4936656 | home-fill | 443 chars
+393 | 4936657 | trophy-fill | 634 chars
+394 | 4936659 | location-fill | 967 chars
+395 | 4936665 | cloud-fill | 387 chars
+396 | 4936666 | customerservice-fill | 473 chars
+397 | 4936667 | experiment-fill | 926 chars
+398 | 4936668 | eye-fill | 528 chars
+399 | 4936669 | like-fill | 667 chars
+400 | 4936671 | lock-fill | 578 chars
+401 | 4936672 | unlike-fill | 659 chars
+402 | 4936673 | star-fill | 593 chars
+403 | 4936674 | unlock-fill | 598 chars
+404 | 4936675 | alert-fill | 849 chars
+405 | 4936676 | api-fill | 972 chars
+406 | 4936677 | highlight-fill | 565 chars
+407 | 4936678 | phone-fill | 724 chars
+408 | 4936679 | edit-fill | 550 chars
+409 | 4936680 | pushpin-fill | 642 chars
+410 | 4936681 | rocket-fill | 1017 chars
+411 | 4936682 | thunderbolt-fill | 389 chars
+412 | 4936683 | tag-fill | 474 chars
+413 | 4936684 | wrench-fill | 493 chars
+414 | 4936685 | tags-fill | 723 chars
+415 | 4936686 | bank-fill | 481 chars
+416 | 4936687 | camera-fill | 531 chars
+417 | 4936688 | error-fill | 488 chars
+418 | 4936689 | crown-fill | 620 chars
+419 | 4936690 | mail-fill | 469 chars
+420 | 4936691 | car-fill | 1030 chars
+421 | 4936692 | printer-fill | 531 chars
+422 | 4936693 | shop-fill | 959 chars
+423 | 4936694 | setting-fill | 1547 chars
+424 | 4936695 | USB-fill | 558 chars
+425 | 4936696 | golden-fill | 719 chars
+426 | 4936697 | build-fill | 421 chars
+427 | 4936698 | box plot-fill | 505 chars
+428 | 4936699 | sliders-fill | 749 chars
+429 | 4936943 | alibaba | 1018 chars
+430 | 4936946 | ant design | 892 chars
+431 | 4936947 | ant-cloud | 1205 chars
+432 | 4936948 | behance | 835 chars
+433 | 4936949 | google plus | 816 chars
+434 | 4936950 | medium | 552 chars
+435 | 4936951 | google | 656 chars
+436 | 4936952 | IE | 843 chars
+437 | 4936953 | amazon | 2606 chars
+438 | 4936954 | slack | 937 chars
+439 | 4936955 | alipay | 732 chars
+440 | 4936956 | taobao | 1148 chars
+441 | 4936957 | zhihu | 1134 chars
+442 | 4936958 | HTML5 | 549 chars
+443 | 4936959 | linkedin | 794 chars
+444 | 4936960 | yahoo | 815 chars
+445 | 4936961 | facebook | 491 chars
+446 | 4936962 | skype | 1809 chars
+447 | 4936963 | CodeSandbox | 499 chars
+448 | 4936964 | chrome | 1080 chars
+449 | 4936965 | codepen | 1921 chars
+450 | 4936966 | aliwangwang | 1545 chars
+451 | 4936967 | apple | 1609 chars
+452 | 4936968 | android | 2023 chars
+453 | 4936969 | sketch | 726 chars
+454 | 4936970 | Gitlab | 905 chars
+455 | 4936971 | dribbble | 1115 chars
+456 | 4936972 | instagram | 1449 chars
+457 | 4936973 | reddit | 1459 chars
+458 | 4936974 | windows | 525 chars
+459 | 4936975 | yuque | 1103 chars
+460 | 4936976 | Youtube | 2002 chars
+461 | 4936977 | Gitlab-fill | 445 chars
+462 | 4936978 | dropbox | 473 chars
+463 | 4936979 | dingtalk | 750 chars
+464 | 4936980 | android-fill | 1211 chars
+465 | 4936981 | apple-fill | 681 chars
+466 | 4936982 | HTML5-fill | 494 chars
+467 | 4936983 | windows-fill | 332 chars
+468 | 4936984 | QQ | 621 chars
+469 | 4936985 | twitter | 784 chars
+470 | 4936986 | skype-fill | 1175 chars
+471 | 4936987 | weibo | 1483 chars
+472 | 4936988 | yuque-fill | 520 chars
+473 | 4936989 | Youtube-fill | 528 chars
+474 | 4936990 | yahoo-fill | 684 chars
+475 | 4936991 | wechat-fill | 1427 chars
+476 | 4936992 | chrome-fill | 718 chars
+477 | 4936993 | alipay-circle-fill | 832 chars
+478 | 4936994 | aliwangwang-fill | 999 chars
+479 | 4936995 | behance-circle-fill | 1684 chars
+480 | 4936996 | amazon-circle-fill | 2645 chars
+481 | 4936997 | codepen-circle-fill | 2028 chars
+482 | 4936998 | CodeSandbox-circle-f | 565 chars
+483 | 4936999 | dropbox-circle-fill | 570 chars
+484 | 4937000 | github-fill | 856 chars
+485 | 4937001 | dribbble-circle-fill | 1173 chars
+486 | 4937002 | google plus-circle-f | 874 chars
+487 | 4937003 | medium-circle-fill | 627 chars
+488 | 4937004 | QQ-circle-fill | 695 chars
+489 | 4937005 | IE-circle-fill | 907 chars
+490 | 4937006 | google-circle-fill | 721 chars
+491 | 4937007 | dingtalk-circle-fill | 802 chars
+492 | 4937008 | sketch-circle-fill | 734 chars
+493 | 4937009 | slack-circle-fill | 963 chars
+494 | 4937010 | twitter-circle-fill | 789 chars
+495 | 4937011 | taobao-circle-fill | 1294 chars
+496 | 4937012 | weibo-circle-fill | 1578 chars
+497 | 4937013 | zhihu-circle-fill | 962 chars
+498 | 4937014 | reddit-circle-fill | 1306 chars
+499 | 4937015 | alipay-square-fill | 823 chars
+500 | 4937016 | dingtalk-square-fill | 826 chars
+501 | 4937017 | CodeSandbox-square-f | 589 chars
+502 | 4937018 | behance-square-fill | 1701 chars
+503 | 4937019 | amazon-square-fill | 2661 chars
+504 | 4937020 | codepen-square-fill | 2053 chars
+505 | 4937021 | dribbble-square-fill | 1199 chars
+506 | 4937022 | dropbox-square-fill | 594 chars
+507 | 4937023 | facebook-fill | 487 chars
+508 | 4937024 | google plus-square-f | 899 chars
+509 | 4937025 | google-square-fill | 752 chars
+510 | 4937026 | instagram-fill | 986 chars
+511 | 4937027 | IE-square-fill | 931 chars
+512 | 4937028 | medium-square-fill | 651 chars
+513 | 4937029 | linkedin-fill | 634 chars
+514 | 4937030 | QQ-square-fill | 719 chars
+515 | 4937031 | reddit-square-fill | 1330 chars
+516 | 4937032 | twitter-square-fill | 813 chars
+517 | 4937033 | sketch-square-fill | 759 chars
+518 | 4937034 | slack-square-fill | 995 chars
+519 | 4937035 | taobao-square-fill | 1319 chars
+520 | 4937036 | weibo-square-fill | 1602 chars
+521 | 4937037 | zhihu-square-fill | 987 chars
+522 | 5756279 | zoom out | 611 chars
+523 | 5756280 | apartment | 644 chars
+524 | 5756281 | audio | 699 chars
+525 | 5756282 | audio-fill | 610 chars
+526 | 5756283 | robot | 645 chars
+527 | 5756284 | zoom in | 707 chars
+528 | 6598312 | robot-fill | 655 chars
+529 | 6598313 | bug-fill | 1168 chars
+530 | 6598314 | bug | 1507 chars
+531 | 6598315 | audio static | 999 chars
+532 | 6598316 | comment | 1133 chars
+533 | 6598317 | signal-fill | 529 chars
+534 | 6598318 | verified | 1189 chars
+535 | 6598319 | shortcut-fill | 897 chars
+536 | 6598320 | videocamera add | 697 chars
+537 | 6598321 | switch user | 984 chars
+538 | 6598322 | whatsapp | 1522 chars
+539 | 6598323 | appstore add | 770 chars
+540 | 6598339 | caret-down | 330 chars
+541 | 6598340 | backward | 470 chars
+542 | 6598341 | caret-up | 331 chars
+543 | 6598342 | caret-right | 332 chars
+544 | 6598343 | caret-left | 330 chars
+545 | 6598344 | fast-backward | 609 chars
+546 | 6598345 | forward | 463 chars
+547 | 6598346 | fast-forward | 609 chars
+548 | 6598347 | search | 736 chars
+549 | 6598348 | retweet | 709 chars
+550 | 6598349 | login | 1009 chars
+551 | 6598350 | step-backward | 456 chars
+552 | 6598351 | step-forward | 455 chars
+553 | 6598352 | swap-right | 378 chars
+554 | 6598353 | swap-left | 370 chars
+555 | 6598354 | woman | 880 chars
+556 | 7834345 | plus | 382 chars
+557 | 8092166 | eye close-fill | 832 chars
+558 | 8092167 | eye-close | 1232 chars
+559 | 8094805 | clear | 670 chars
+560 | 8094806 | collapse | 603 chars
+561 | 8094807 | expand | 594 chars
+562 | 8094808 | delete column | 927 chars
+563 | 8094809 | merge-cells | 835 chars
+564 | 8094810 | subnode | 576 chars
+565 | 8094811 | rotate-left | 689 chars
+566 | 8094812 | rotate-right | 689 chars
+567 | 8094813 | insert row below | 569 chars
+568 | 8094814 | insert row above | 569 chars
+569 | 8094815 | table | 377 chars
+570 | 8094816 | solit-cells | 835 chars
+571 | 8094817 | format painter | 657 chars
+572 | 8094818 | insert row right | 563 chars
+573 | 8094819 | format painter-fill | 582 chars
+574 | 8094820 | insert row left | 563 chars
+575 | 8094821 | translate | 766 chars
+576 | 8094822 | delete row | 920 chars
+577 | 8094823 | sisternode | 652 chars
+578 | 9229175 | Field-number | 983 chars
+579 | 9229176 | Field-String | 1267 chars
+580 | 9229177 | Function | 1026 chars
+581 | 9229178 | Field-time | 1159 chars
+582 | 9229179 | GIF | 803 chars
+583 | 9229180 | Partition | 787 chars
+584 | 9229181 | index | 1239 chars
+585 | 9229182 | Stored procedure | 784 chars
+586 | 9229184 | Field-Binary | 1509 chars
+587 | 9229185 | Console-SQL | 1171 chars
+588 | 9230689 | 1:1 | 689 chars
+589 | 9230690 | aim | 832 chars
+590 | 9230691 | compress | 721 chars
+591 | 9230692 | expend | 720 chars
+592 | 9230693 | folder-view | 756 chars
+593 | 9230694 | file-GIF | 1136 chars
+594 | 9230695 | group | 1065 chars
+595 | 9230696 | send | 603 chars
+596 | 9230697 | Report | 809 chars
+597 | 9230698 | View | 919 chars
+598 | 9230699 | shortcut | 1066 chars
+599 | 9230700 | ungroup | 1030 chars
