@@ -4,6 +4,10 @@
 # 预览截图 / 构建产物
 .preview/
 *.xpi
+# 自动更新清单：由 build-xpi.py 生成，实际下发用的是 GitHub Release 上的那份
+updates.json
+# AMO 源代码包（构建产物，不进仓库）
+*-source.zip
 
 # 图标库测试集与缓存
 .iconfont/test/
@@ -15,3 +19,11 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 工具产生的临时目录
+.dsh-lookup/
+
+# 敏感凭据（勿提交）
+*Recovery-Key*.txt
+*authentication codes*.txt
+*.mozilla-accounts

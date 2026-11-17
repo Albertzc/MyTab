@@ -33,6 +33,7 @@ README 里的 xpi 文件名与「功能（vX.Y.Z）」标题。
 import argparse
 import difflib
 import glob
+import hashlib
 import json
 import os
 import re
@@ -317,6 +318,14 @@ def write_version(new_version, old_version):
     with open(ip, "w", encoding="utf-8") as f:
         f.write(html)
 
+    # app.js 顶部的版本横幅：审阅员打开源码第一眼看到的就是它，跟着版本走
+    ap_ = os.path.join(ROOT, "app.js")
+    with open(ap_, encoding="utf-8") as f:
+        js = f.read()
+    js = re.sub(r"MyTab v\d+\.\d+\.\d+", "MyTab v" + new_version, js)
+    with open(ap_, "w", encoding="utf-8") as f:
+        f.write(js)
+
     rp = os.path.join(ROOT, "README.md")
     if os.path.exists(rp):
         with open(rp, encoding="utf-8") as f:
@@ -331,14 +340,88 @@ def write_version(new_version, old_version):
             f.write(rd)
 
 
+# ---------------------------------------------------------------- 更新清单
+def write_updates_json(version, signed_xpi=None):
+    """生成 Firefox 的更新清单 updates.json（自托管 / unlisted 分发用）。
+
+    Firefox 会定期拉取 manifest.json 里 browser_specific_settings.gecko.update_url
+    指向的清单，发现比当前安装版本更高的版本就自动下载安装。
+
+    格式（见 MDN / Extension Workshop）：
+        { "addons": { "<扩展 ID>": { "updates": [ { "version": ..., "update_link": ... } ] } } }
+
+    注意两点：
+    1) 顶层 key 必须等于 manifest.json 里的 browser_specific_settings.gecko.id；
+    2) update_link 指向的必须是 **AMO 签过名** 的 xpi —— 用户装的是签名版，
+       Firefox 对已签名扩展的更新也要求新文件带合法 Mozilla 签名，
+       所以这里默认填 Release 上的地址，而不是本地刚打出来的未签名包。
+    """
+    with open(os.path.join(ROOT, "manifest.json"), encoding="utf-8") as f:
+        mf = json.load(f)
+    addon_id = (mf.get("browser_specific_settings", {}).get("gecko", {}) or {}).get("id")
+    if not addon_id:
+        raise SystemExit("manifest.json 里没有 browser_specific_settings.gecko.id，无法生成 updates.json")
+    update_url = (mf.get("browser_specific_settings", {}).get("gecko", {}) or {}).get("update_url")
+    if not update_url:
+        raise SystemExit("manifest.json 里没有 browser_specific_settings.gecko.update_url，无法生成 updates.json")
+
+    base = update_url.rsplit("/", 1)[0]  # 去掉末尾的 updates.json
+    if signed_xpi:
+        update_link = "%s/%s" % (base, os.path.basename(signed_xpi))
+        digest = None
+        if os.path.exists(signed_xpi):
+            with open(signed_xpi, "rb") as f:
+                digest = "sha256:" + hashlib.sha256(f.read()).hexdigest()
+    else:
+        update_link = "%s/mytab-%s.xpi" % (base, version)
+        digest = None
+
+    entry = {"version": version, "update_link": update_link}
+    if digest:
+        entry["update_hash"] = digest
+
+    doc = {"addons": {addon_id: {"updates": [entry]}}}
+    out = os.path.join(ROOT, "updates.json")
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    return out, entry
+
+
+# ---------------------------------------------------------------- 源代码包
+def write_source_zip(version):
+    """生成给 AMO 审阅员用的源代码包。
+
+    MyTab **没有构建步骤** —— 扩展包里的文件就是源文件本身。
+    所以这个 zip 就是把运行时文件原样打进去，再附一份 README 说明「无构建步骤」，
+    审阅员解压后逐字节比对即可。
+
+    注意：README 只在源文件包里，**不在扩展包里**（扩展包的白名单是 RUNTIME_FILES）。
+    """
+    readme = os.path.join(ROOT, ".iconfont", "amo-source-README.md")
+    if not os.path.exists(readme):
+        raise SystemExit("缺少 .iconfont/amo-source-README.md")
+    out = os.path.join(ROOT, ".preview", "mytab-%s-source.zip" % version)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        for rel in RUNTIME_FILES:
+            z.write(os.path.join(ROOT, rel), rel)
+        z.write(readme, "README.md")
+    return out
+
+
 # ---------------------------------------------------------------- 主流程
 def main():
     ap = argparse.ArgumentParser(description="打包 MyTab 扩展并自动升版本号")
     ap.add_argument("--version", help="指定版本号（x.y.z），跳过自动判断")
     ap.add_argument("--bump", choices=["major", "minor", "patch"],
                     help="强制指定升哪一级（覆盖自动判定）")
+    ap.add_argument("--signed-xpi",
+                    help="AMO 签过名的 xpi 路径：给它就算 sha256 并把 update_link 指向它")
     ap.add_argument("--no-bump", action="store_true", help="沿用 manifest 里的版本号，不自动升")
     ap.add_argument("--dry-run", action="store_true", help="只报告改动与版本判断，不写文件")
+    ap.add_argument("--source-zip", action="store_true",
+                    help="同时生成给 AMO 审阅员的源代码包（.preview/mytab-<版本>-source.zip）")
     args = ap.parse_args()
 
     missing = [f for f in RUNTIME_FILES if not os.path.exists(os.path.join(ROOT, f))]
@@ -363,7 +446,7 @@ def main():
     # 对比时把版本号字符串抹平，避免版本号本身被算成"改动"
     old_cmp = dict(old_files)
     new_cmp = dict(new_files)
-    for key in ("index.html", "manifest.json"):
+    for key in ("index.html", "manifest.json", "app.js"):
         if key in old_cmp:
             old_cmp[key] = re.sub(rb"(mytab-|MyTab v)\d+\.\d+\.\d+", rb"\1X.Y.Z", old_cmp[key])
         new_cmp[key] = re.sub(rb"(mytab-|MyTab v)\d+\.\d+\.\d+", rb"\1X.Y.Z", new_cmp[key])
@@ -413,6 +496,9 @@ def main():
     if kind == "无改动":
         print("运行时文件与最近一个包完全一致 → 不升版本、不打包。")
         print("（如需强制产出一个版本，用 --bump patch / --version x.y.z）")
+        if args.source_zip:
+            src = write_source_zip(new_version)
+            print("wrote %s（源代码包，无需重新构建 xpi）" % src)
         return
 
     report = "\n".join([
@@ -444,6 +530,22 @@ def main():
     print("wrote %s (%d bytes, %d files)" % (out, os.path.getsize(out), len(entries)))
     for e in entries:
         print("  " + e)
+
+    # 给 AMO 审阅员用的源代码包（可选）
+    if args.source_zip:
+        src = write_source_zip(new_version)
+        print("wrote %s（源代码包）" % src)
+
+    # 生成 Firefox 更新清单（自托管 / unlisted 分发用）
+    upd_path, upd_entry = write_updates_json(new_version, args.signed_xpi)
+    print("wrote %s" % upd_path)
+    print("  update_link : %s" % upd_entry["update_link"])
+    if "update_hash" in upd_entry:
+        print("  update_hash : %s" % upd_entry["update_hash"])
+    if not args.signed_xpi:
+        print("  提醒：这里的 update_link 指向未签名的本地包。正式发布前请用")
+        print("        python .iconfont/build-xpi.py --signed-xpi <AMO签名后的xpi> 重算哈希。")
+
     print("已同步版本号：manifest.json / index.html / README.md")
     print("提醒：原型设计-分组.md 的落盘清单与 README 的回归记录需手动补一行。")
 

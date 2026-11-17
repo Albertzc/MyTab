@@ -3,7 +3,7 @@
 一个**纯本地**的 Firefox 新标签页：时钟、问候、搜索、常用网站磁贴、WeTab 风格文件夹分组。
 零账号、零追踪、无广告，所有数据只存在你的浏览器里。
 
-## 功能（v2.0.0）
+## 功能（v3.0.1）
 
 | 模块 | 功能 |
 |---|---|
@@ -29,10 +29,13 @@ index.html        页面本体（入口）
 styles.css        样式
 app.js            逻辑 + 分组图标数据（134 个内联 SVG，GROUP_ICONS 段由脚本生成）
 manifest.json     Firefox 扩展清单
-background.js     新标签页重定向 + 图标抓取 + 无痕窗口/书签
+background.js     图标抓取 + 无痕窗口/书签（新标签页接管已交给 manifest，见「原理」）
 icons/            扩展图标（48/96/128）
 icons/groups/     分组图标 SVG 原始文件 + manifest.json
-mytab-2.0.0.xpi   打包好的 Firefox 扩展（v2.0.0）
+mytab-3.0.1.xpi   打包好的 Firefox 扩展（v3.0.1）
+updates.json      Firefox 自动更新清单（配合 manifest 里的 update_url）
+AMO-LISTING.md    提交到 addons.mozilla.org 的逐字段文案
+PRIVACY.md        隐私政策
 prototype.html    原型留档（v1 布局历史版本）
 prototype-groups.html 分组功能可交互原型
 原型设计.md        原型设计文档
@@ -55,7 +58,11 @@ README.md         本文件
 3. 选择本目录下的 `manifest.json`
 4. 按 `Ctrl+T` 打开新标签页 → 显示 MyTab
 
-> **说明**：临时载入的扩展在 Firefox 重启后失效，适合开发/试用。持久安装见下文。
+> **说明**：临时载入的扩展在 Firefox 重启后**会被卸载**（Firefox 关机时调用 `XPIProvider.cleanupTemporaryAddons()` 清理 `app-temporary` 位置的扩展），所以每次重启都要重新载入一次。
+>
+> **好消息：数据不会丢。** Firefox 按扩展 ID 固定分配 `moz-extension://` 的 origin UUID，并写进 profile 的 `extensions.webextensions.uuids`。所以只要扩展 ID 不变（`mytab@local.mytab`），重新载入后分组、磁贴、设置、图标缓存会**原样恢复**。
+>
+> 想彻底免去每次重载，见下文「持久安装（重启后不失效）」。
 
 ### 关于「Firefox 无法访问本地文件」的提示
 
@@ -67,14 +74,150 @@ README.md         本文件
 
 ### 持久安装（重启后不失效）
 
-1. **推荐**：每次重启 Firefox 后重新「临时载入」一次（3 次点击）
-2. **打包安装**：提供 `mytab-2.0.0.xpi`；先安装 [Firefox Developer Edition](https://www.mozilla.org/firefox/developer/) 或 Nightly，在 `about:config` 把 `xpinstall.signatures.required` 设为 `false`，然后在 `about:addons` → 齿轮 →「从文件安装附加组件…」选择该 xpi
-3. **正式分发**：上传 [addons.mozilla.org](https://addons.mozilla.org) 做未列出（unlisted）签名后安装
+**先说结论：官方版 Firefox 装不了未签名的 xpi。** 官方版构建里 `MOZ_REQUIRE_SIGNING=true` 是写死的（编译进 `omni.ja`），`about:config` 里把 `xpinstall.signatures.required` 改成 `false` 在官方版上**完全无效**（源码 `BrowserGlue.sys.mjs` 里是 `if (AppConstants.MOZ_REQUIRE_SIGNING) { signingRequired = true; }`，直接走不到读偏好那一步）。所以想在官方版里持久安装，只能走 AMO 签名。
+
+三条路，按推荐顺序：
+
+#### 方案 A：装一个 Firefox ESR（最省事，推荐）
+
+ESR 是官方发布的长期支持版，**允许安装未签名扩展**（`MOZ_REQUIRE_SIGNING=false`），且和正式版**可以共存**（各自的安装目录和 profile 互相独立）。
+
+> ⚠️ **ESR 安装器的两个坑（实测踩过）**：
+>
+> 1. **ESR 安装器默认装到 `C:\Program Files\Mozilla Firefox`**（和正式版同一个目录），不是 `…\Mozilla Firefox ESR`。它会把正式版**覆盖掉**。本机已踩过一次：ESR 装完后正式版被替换成 ESR 153.7.0。
+> 2. **两个版本共用同一个卸载注册表键** `HKLM\…\Uninstall\Mozilla Firefox`，后装的会覆盖先装的条目，「应用和功能」里只能看到一个。
+>
+> 所以正确做法是：**先装正式版 → 再把 ESR 目录整个搬到 `C:\Program Files\Mozilla Firefox ESR` → 再补登记一个独立的注册表条目**。
+
+**完整步骤（本机已验证走通）：**
+
+1. 下载 [Firefox ESR 64-bit（简体中文）](https://www.firefox.com/zh-CN/download/all/desktop-esr/win64/zh-CN/)（下载链接是「latest」，会自动拿到当前 ESR 主线版本）
+2. 先装好**正式版** Firefox（如果还没装）
+3. 安装 ESR（`/S` 静默安装即可）。装完后它会覆盖正式版 —— **没关系，下一步会把两个版本分开**
+4. 把 ESR 目录整个改名搬走：
+   ```powershell
+   Move-Item 'C:\Program Files\Mozilla Firefox' 'C:\Program Files\Mozilla Firefox ESR'
+   ```
+5. 把正式版装回原位（再跑一次正式版安装包即可）：
+   ```powershell
+   # 重新运行 Firefox Setup 160.0.exe /S
+   ```
+6. 给 ESR 补一个**独立的注册表条目 + 开始菜单快捷方式**（管理员 PowerShell）：
+   ```powershell
+   # 见 .preview/register-esr.ps1
+   powershell -ExecutionPolicy Bypass -File .preview/register-esr.ps1
+   ```
+   脚本会写 `HKLM\…\Uninstall\Mozilla Firefox ESR`（注意名字多了 ` ESR`）并创建「Mozilla Firefox ESR」快捷方式，之后两个版本在「应用和功能」里就能并存。
+7. 配置 ESR 的 profile（profile 名一般是 `xxxxxxxx.default-esr`）：
+   ```powershell
+   $p = "$env:APPDATA\Mozilla\Firefox\Profiles\<你的 .default-esr 目录>"
+   ```
+   在该目录建 `user.js`：
+   ```js
+   // 允许安装未签名的扩展（本项目自打包 xpi）
+   user_pref("xpinstall.signatures.required", false);
+   // 每次启动都扫描 profile 的 extensions/ 目录，把新 xpi 丢进去就能被识别
+   // SCOPE_PROFILE = 1（见 AddonManager.sys.mjs）
+   user_pref("extensions.startupScanScopes", 1);
+   ```
+8. 装 MyTab：`about:addons` → 齿轮 →「从文件安装附加组件…」→ 选 `mytab-3.0.1.xpi`
+9. 之后每次升级扩展：把新的 xpi 拖进 ESR 的 `about:addons` 窗口即可覆盖安装
+
+**验证持久生效**：关掉 ESR → 重新打开 → 按 `Ctrl+T`，新标签页应直接显示 MyTab，且 `about:addons` 里 MyTab 仍是「已启用」。
+
+> **数据怎么带过去**：MyTab 的 localStorage 按 `moz-extension://<uuid>` 分区，而 uuid 是**按 profile** 分配的。想让 ESR 复用正式版的数据，把 `user.js` 里再加上：
+> ```js
+> user_pref("extensions.webextensions.uuids", "{...原 map..., \"mytab@local.mytab\":\"<正式版里的 uuid>\"}");
+> ```
+> 并把 `storage/default/moz-extension+++<uuid>/` 整个目录拷到 ESR profile 下对应位置。uuid 可在正式版的 `prefs.js` 里搜 `extensions.webextensions.uuids` 找到。
+
+> ESR 一年内只做大版本更新，日常用完全够用。
+
+#### 方案 B：上传 AMO 做未列出（unlisted）签名
+
+1. 打包：跑 `python .iconfont/build-xpi.py`（自动按 SemVer 升版本并同步 manifest / index.html / README）
+2. 注册 [addons.mozilla.org](https://addons.mozilla.org/developers/) 账号 → 「提交新附加组件」→ 选择 **On your own（自托管 / unlisted）**
+3. AMO 会自动跑签名流程（需排队，通常几分钟到几小时）
+4. 签好后下载 signed xpi，在**任意官方版 Firefox** 里正常安装，永久生效、还能自动更新
+
+> 这是唯一能在**不装第二个浏览器**的前提下彻底解决问题的办法。缺点是首次提交要过 AMO 的自动审核（主要检查 manifest 权限和是否含有跟踪代码）。
+>
+> **v3.0.0 起本扩展的 manifest 已按 AMO 的要求整改完毕**，可以直接提交：
+>
+> | 项目 | v3.0.0 起 |
+> |---|---|
+> | 权限 | `bookmarks` + `clipboardWrite`（**去掉了 `tabs`**） |
+> | 主机权限 | 改为**可选权限** `optional_host_permissions: ["*://*/*"]`，按站点申请 |
+> | 新标签页接管 | 改用 Firefox 原生 `chrome_url_overrides.newtab`（Firefox 54+ 支持） |
+> | 数据收集声明 | `data_collection_permissions: { "required": ["none"] }` |
+> | 自动更新 | `update_url` 指向 GitHub Release 的 `updates.json` |
+>
+> 提交步骤、listing 文案、Reviewer Notes 全部写在 [AMO-LISTING.md](AMO-LISTING.md)，
+> 隐私说明在 [PRIVACY.md](PRIVACY.md)。
+>
+> 已用 AMO 自己的校验器（`addons-linter`，与 AMO 服务端同一套）验证：**0 error、0 warning**。
+
+#### 方案 C：Firefox Developer Edition / Nightly
+
+和 ESR 一样允许未签名扩展，还能顺便用上调试工具。缺点是**会频繁更新**（Nightly 一天几次），不适合当日常浏览器。见 [Developer Edition 下载](https://www.firefox.com/channel/desktop/developer/)。
+
+#### 方案 D：继续临时载入（0 成本）
+
+每次重启 Firefox 后重新「临时载入」一次（3 次点击）。**数据不会丢**，只是多这一步。
+
+---
+
+#### 各方案的数据会不会丢？
+
+都不会。持久安装用的是同一个扩展 ID `mytab@local.mytab`，Firefox 因此分配同一个 `moz-extension://` origin UUID，profile 里 `storage/default/moz-extension+++<uuid>/ls/data.sqlite` 的 `mytab.v1` / `mytab.favicon.v1` 会继续被读写。
+
+> ⚠️ 唯一会丢数据的情况：**换了扩展 ID**（改 `manifest.json` 的 `browser_specific_settings.gecko.id`）。Firefox 会分配新的 origin UUID，旧的 localStorage 就再也读不到了。改 ID 前请先用设置面板的「导出配置」备份。
+
+**另一个例外**：`file://` 直开模式（方式一）。它的 localStorage 按**文件路径**分区（origin 是 `file:///E:/MyProject/MyTab/index.html`），所以项目目录一旦移动，旧路径的数据就再也读不到了 —— 扩展模式不受影响。
+
+> **排查小抄**：想直接读 profile 里的 MyTab 配置，`data.sqlite` 的 `value` 列是 **Snappy 压缩**的（`compression_type=1`，Firefox 用了自己 vendored 的 snappy `RawUncompress`，不是标准 snappy 帧格式），4 字节前缀之后是 Snappy 裸块。直接用 Python 的 `snappy` 包解不开。
+
+#### 打包脚本
+
+```bash
+python .iconfont/build-xpi.py                # 自动按 SemVer 升版本并打包
+python .iconfont/build-xpi.py --bump minor   # 强制指定升哪一级
+python .iconfont/build-xpi.py --dry-run      # 只看改动与版本判断，不写文件
+```
+
+判定规则见 [`.iconfont/build-xpi.py`](.iconfont/build-xpi.py) 顶部注释（major = 破坏性 / minor = 向后兼容新增 / patch = 修复与重构）。
 
 ### 原理
 
-Firefox 不支持 `chrome_url_overrides.newtab`（这是 Chrome 的做法），因此采用 New Tab Override 类扩展的标准方案：
-`background.js` 监听 `tabs.onCreated` / `tabs.onUpdated`，把 `about:newtab`、`about:home` 重定向到扩展内置的 `index.html`（不劫持脚本弹出的 `about:blank`）。
+**v3.0.0 起改用 Firefox 原生的新标签页接管机制**，不再用 `tabs.onCreated` 劫持重定向。
+
+```json
+"chrome_url_overrides": { "newtab": "index.html" },
+"chrome_settings_overrides": { "homepage": "index.html" }
+```
+
+> ⚠️ **更正**：v3.0.0 之前的文档写「Firefox 不支持 `chrome_url_overrides.newtab`」—— **这是错的**。
+> Firefox 从 **54 版（2017 年 6 月）** 就支持这个键了，只是当时用的人少、文档没跟上。
+> 现在 AMO 上主流的新标签页扩展（New Tab Override v19 / Tabliss / Tabby）全部用这个键。
+
+两个键各管一半，缺一不可：
+
+| 键 | 接管范围 |
+|---|---|
+| `chrome_url_overrides.newtab` | `Ctrl+T` 新标签页 |
+| `chrome_settings_overrides.homepage` | **工具栏「主页」按钮** + **`Ctrl+N` 新窗口**（Firefox 的新窗口开的是主页，不是新标签页） |
+
+> 只写 `newtab` 的话，Home 按钮和新窗口仍然会显示 Firefox 自带的 Activity Stream ——
+> 这正是 v2.x 那个 `tabs.onCreated` 重定向 hack 存在的原因（它顺带拦了 `about:home`）。
+
+改用原生机制带来三个好处：
+
+1. **不需要 `tabs` 权限**（v2.x 的重定向方案必须申请 `tabs` 才能读标签页 URL）；
+2. **不会闪一下默认新标签页**再跳走（重定向方案一定会闪）；
+3. **Firefox 会主动弹窗告知用户**：「An extension, %S, changed the page you see when you open a new tab.」
+   —— 用户知情、可一键改回，这正好符合 AMO 政策对「改变新标签页」这类行为的要求。
+
+`background.js` 因此不再监听 `tabs.onCreated` / `tabs.onUpdated`，只保留图标抓取、无痕窗口、收藏书签三件事。
 
 ## 分组功能（v1.4.0 引入，v1.5.0 移除未分组 / 分组选择）
 
@@ -275,24 +418,34 @@ mytab-backup-20261115-0002.zip
 - **重新生成 / 换图标集**：编辑 `.iconfont/curated-9402.json`（英文名 + 中文名）后运行 `python .iconfont/build-group-icons.py`；脚本会下载集合 JSON（存到 `.iconfont/collections/`）、生成 SVG、重写 `app.js` 的 `GROUP_ICONS` 段，并清理上一套 SVG。
 - 图标版权归 Ant Design 团队所有，按 iconfont 官方图标库的免费许可使用（Ant Design 图标本身为 MIT）。
 
-## 图标自动获取原理（v1.2.0 修复）
+## 图标自动获取原理（v1.2.0 修复，v3.0.0 去第三方）
 
-v1.0 的问题：只靠 `<img>` 直连站点 `/favicon.ico`，且图片设置了 `loading="lazy"`——图片在 `onload` 之后才插入 DOM，游离节点上的 lazy 图片永远不会开始加载，**图标永远不显示**。
+v1.0 的问题：只靠 `<img>` 直连站点 `/favicon.ico`，且图片设置了 `loading="lazy"`——图片在 `onload` 之后才插入 DOM，离游离节点上的 lazy 图片永远不会开始加载，**图标永远不显示**。
 
 v1.1/1.2 的修复：
-1. **去掉 lazy 加载**，`<img>` 链式回退立即生效：站点 `/favicon.ico` → Google favicon 服务 → 首字母彩色圆。
+1. **去掉 lazy 加载**，`<img>` 链式回退立即生效。
 2. **后台脚本抓取（主力）**：借助 host 权限读取目标网页 HTML（超时 7s），解析 `<link rel="icon">`（含 `shortcut icon`，支持 SVG），按「页面声明的图标 → /favicon.ico → /favicon.png → /apple-touch-icon.png」顺序抓取，转成 dataURL 缓存到本地；全失败才回退字母圆。成功缓存的图标二次打开秒显示、离线也能显示。
 
-## 权限说明
+> **v3.0.0 的改动**：回退链里的 **Google favicon 服务已彻底移除**，
+> 现在只向**站点自身**请求 `/favicon.ico` → `/apple-touch-icon.png` → 首字母彩色圆。
+> 原因有两个：一是那条链路会把**用户访问的域名发给 Google**，与本项目「零追踪」的定位冲突，
+> 也会在 AMO 审核里被当成「传输与主功能无关的数据」；
+> 二是抓图标已经需要主机权限了，主机权限改成**按站点申请的���选权限**后，
+> 用户没授权的站点根本不会发出任何请求，回退链自然也就只剩站点自身。
+
+## 权限说明（v3.0.0 起）
 
 | 权限 | 用途 |
 |---|---|
-| `tabs` | 识别新标签页并重定向 |
-| `bookmarks` | 右键菜单「收藏到书签」 |
-| `clipboardWrite` | 右键菜单「复制链接地址」 |
-| `<all_urls>`（host） | 抓取你填写的网站的图标（只在需要时发起，结果缓存本地） |
+| `bookmarks` | 右键菜单「收藏到书签」（只创建，不读取已有书签） |
+| `clipboardWrite` | 右键菜单「复制链接地址」（只写，不读剪贴板） |
+| `optional_host_permissions: ["*://*/*"]` | **可选权限**，安装时不授予。用户添加某个站点的磁贴时，就**那一个站点**向用户申请访问权，用来读它的 `<link rel="icon">` 声明拿准图标。可随时在 `about:addons` → 权限里撤销，撤销后图标回退为首字母色块，其余功能不受影响 |
 
-无统计、无广告、无第三方脚本；不上传任何配置或浏览数据。
+> v2.x 用的是 `tabs` + `host_permissions: ["<all_urls>"]`（安装即授予全站访问权）。
+> v3.0.0 改成原生 `chrome_url_overrides` 接管新标签页后不再需要 `tabs`，
+> `<all_urls>` 也降级成了按站点申请的可选权限 —— 装完扩展时 Firefox **不再提示**「读取所有网站数据」。
+
+无统计、无广告、无第三方脚本；不上传任何配置或浏览数据。隐私细节见 [PRIVACY.md](PRIVACY.md)。
 
 ## 已知限制
 
@@ -342,6 +495,12 @@ v1.1/1.2 的修复：
 - v2.0.0 AI 入口下线 + 全部恢复默认回归 **20 项全部通过**（jsdom）：**设置面板不再有「AI 助手」区**（清单 / 开关 / 新增表单 / 恢复默认按钮全无）、**引擎下拉不再有 AI 分隔线与分组标题**；**存储里不再有 `aiOrder` / `aiEdits` / `aiHidden` / `showAI`，顶层不再有 `aiEngines`**；**5 个 AI 变成「常用」分组里的普通磁贴**（首次运行默认磁贴 6 → **11** 个）、**老数据首次启动自动补进 5 个且归属「常用」**、**二次启动不重复补**（`aiTilesAdded` 标记）；**设置面板已移除「恢复默认搜索引擎」**；**导入时已下线的 AI 配置字段一律被丢弃**。
 - v2.0.0 默认背景 + 全部恢复默认回归 **16 项全部通过**（jsdom）：**默认背景是 ocean（第二个渐变）**、渐变色块第二个被标记选中、**「恢复默认」按钮也回到 ocean**；**「全部恢复默认」把主题 / 每页布局 / 名称开关 / 背景 / 编辑覆盖 / 隐藏列表 / 自定义引擎 / 分组 / 磁贴全部打回出厂值**（分组只剩「常用」、磁贴回到 11 个、5 个 AI 都在、时钟回到 24 小时制、默认引擎回到 Bing）；**取消确认框时不重置**。
 - 当前 jsdom 用例合计 **181 项**（原 59 + v1.6.0 新增 47 + v1.7.0 新增 11 + v1.8.0 新增 45 + v1.9.0 新增 16 + v2.0.0 新增 20，v2.0.0 期间因 AI 功能下线净增 19）。
+- **v3.0.0 AMO 整改回归全部通过**：
+  - `addons-linter`（**与 AMO 服务端同一套校验器**）对 `mytab-3.0.1.xpi`：**自托管模式 0 error / 0 warning / 0 notice**；
+    公开上架模式仅剩 `MANIFEST_UPDATE_URL` 一条（那条是「Mozilla 托管的扩展不允许带 update_url」，自托管本来就该带）。
+  - 原有 **181 + 23 + 14 + 15 = 233 项**回归用例全部仍然通过（改的是权限与接管机制，**没动任何 localStorage 键名和 DOM 结构**，老用户数据可直接沿用）。
+  - `node --check app.js` / `node --check background.js` 通过；`manifest.json` 为合法 JSON。
+  - 语义化版本判定：本轮因 **manifest 权限 + host 权限 + browser_specific_settings 三项都变了**，脚本自动判定为 **major**（2.0.1 → 3.0.0），与预期一致。
 - 版本判定的单元测试 **15 项全部通过**（`python .iconfont/test/test-semver.py`）：纯样式 → patch、新增设置项 → minor、移除设置项 → major、删掉仍在引用的 DOM id → major、移除后台消息类型但页面在用 → major、运行时无差异 → 不产生版本。
 - 回归可用 `MYTAB_ROOT` 指定被测项目根目录（默认取仓库自身），便于把测试放到别处运行。
 - 图标相关脚本都在 `.iconfont/`（不属于扩展运行时，详见 [.iconfont/README.md](.iconfont/README.md)）：`build-group-icons.py` 生成图标资源并重写 `app.js` 的 `GROUP_ICONS` 段；`build-xpi.py` 打包 xpi；`test/test.mjs` 是上面的 jsdom 回归（`cd .iconfont/test && pnpm install && node test.mjs`）；`test/test-zip.mjs` 是备份压缩包的回归；`test/test-e2e.mjs` 是导出→导入的端到端演练；`test/test-semver.py` 是版本判定单元测试；`test/render-preview.mjs` 生成 `.preview/group-icons.png` 图标总览图。

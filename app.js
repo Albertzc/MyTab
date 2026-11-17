@@ -1,4 +1,4 @@
-/* ================= MyTab v1.1.0 =================
+/* ================= MyTab v3.0.1 =================
  * 纯本地、零依赖的新标签页。
  * 数据全部保存在 localStorage；不发起任何统计/上报请求。
  */
@@ -355,6 +355,20 @@
   function hasExtension() {
     return typeof browser !== 'undefined' && browser.runtime && browser.runtime.id &&
       typeof browser.runtime.sendMessage === 'function';
+  }
+  /* 主机权限是「可选权限」（manifest 的 optional_host_permissions）。
+   * 只有用户自己添加磁贴、点了确定的那一刻，我们才去申请对应站点的访问权 ——
+   * 这样申请理由明确，用户也能拒绝（拒绝后图标回退到首字母色块，功能不受影响）。
+   * 注意：浏览器要求 permissions.request() 必须在用户手势的调用栈里触发。 */
+  function requestHostPermission(url) {
+    if (!hasExtension() || !browser.permissions || !browser.permissions.request) return Promise.resolve(false);
+    var host;
+    try { host = new URL(url).host; } catch (e) { return Promise.resolve(false); }
+    if (!host) return Promise.resolve(false);
+    var origin = '*://' + host + '/*';
+    return browser.permissions.request({ origins: [origin] }).then(function (granted) {
+      return !!granted;
+    }).catch(function () { return false; });
   }
   function perPageCount() {
     return Math.max(1, (settings.pageRows || 1) * (settings.pageCols || 7));
@@ -847,10 +861,22 @@
     var ic = GROUP_ICON_MAP[iconId] || GROUP_ICON_MAP[DEFAULT_GROUP_ICON] || GROUP_ICONS[0];
     return ic ? ic.svg : '';
   }
+  /* 把内置图标库的 SVG 字符串插入元素。
+   * 不用 innerHTML：内容虽然是内置常量，但 innerHTML 会被扩展商店的静态检查
+   * 判为不安全赋值（UNSAFE_VAR_ASSIGNMENT）。这里用 DOMParser 解析成节点再挂上。 */
+  function setSvg(el, svgText) {
+    if (!el || !svgText) return;
+    try {
+      var doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+      var root = doc.documentElement;
+      if (!root || root.nodeName === 'parsererror') return;
+      el.textContent = '';
+      el.appendChild(document.importNode(root, true));
+    } catch (e) { /* 解析失败就保持原样 */ }
+  }
   function fillGroupIcon(el, g) {
     if (!el) return;
-    var svg = iconSvgOf(g && g.icon);
-    if (svg) el.innerHTML = svg;
+    setSvg(el, iconSvgOf(g && g.icon));
   }
 
   /* ---------- 侧栏 tooltip ---------- */
@@ -1220,7 +1246,8 @@
     img.onerror = function () {
       stage++;
       if (stage === 1) {
-        img.src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64';
+        // 站点自己的 apple-touch-icon（仅当用户授权了主机权限时才会真的拿到图）
+        img.src = (/^http:\/\//i.test(t.url) ? 'http:' : 'https:') + '//' + host + '/apple-touch-icon.png';
       } else {
         if (img.parentNode === cell) cell.removeChild(img);
         cell.classList.remove('has-icon');
@@ -1286,7 +1313,7 @@
       b.dataset.icon = ic.id;
       b.title = ic.name;
       b.setAttribute('aria-label', ic.name);
-      b.innerHTML = ic.svg;
+      setSvg(b, ic.svg);
       b.onclick = function () {
         groupDialogIcon = ic.id;
         pick.querySelectorAll('button').forEach(function (x) { x.classList.remove('active'); });
@@ -2120,7 +2147,8 @@
     img.onerror = function () {
       stage++;
       if (stage === 1) {
-        img.src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64';
+        // 站点自己的 apple-touch-icon；不再回退到任何第三方图标服务
+        img.src = proto + '//' + host + '/apple-touch-icon.png';
       } else {
         if (img.parentNode === av) av.removeChild(img);
         letterAvatar(av, t);
@@ -2153,9 +2181,10 @@
     }
   }
   function fetchIconFallback(t, host, finish) {
+    /* 只向站点自身请求图标，不经过任何第三方图标服务（保持零第三方请求） */
     var candidates = [
       (/^http:\/\//i.test(t.url) ? 'http://' : 'https://') + host + '/favicon.ico',
-      'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64'
+      (/^http:\/\//i.test(t.url) ? 'http://' : 'https://') + host + '/apple-touch-icon.png'
     ];
     (function tryNext(i) {
       if (i >= candidates.length) { finish(null); return; }
@@ -2405,7 +2434,7 @@
       if (it.icon) {
         var ico = document.createElement('span');
         ico.className = 'mi-ico';
-        ico.innerHTML = iconSvgOf(it.icon);
+        setSvg(ico, iconSvgOf(it.icon));
         el.appendChild(ico);
       }
       var label = document.createElement('span');
@@ -2578,6 +2607,10 @@
 
     tiles.push({ id: 't' + Date.now(), name: name, url: url, icon: icon, groupId: gid });
     save();
+    /* 顺带申请这个站点的主机权限（可选权限，用户可拒绝）：
+     * 授权后后台能读页面 HTML 解析 <link rel=icon>，拿到更准的图标；
+     * 不授权也不影响使用 —— 图标回退到 <img> 直连 /favicon.ico，再退到首字母色块。 */
+    requestHostPermission(url);
     if (currentGroup !== ALL_GROUPS && gid === currentGroup) {
       // 留在当前分组，并翻到最后一页显示新磁贴
       currentPage = Math.max(0, Math.ceil(tilesOfGroup(gid).length / perPageCount()) - 1);

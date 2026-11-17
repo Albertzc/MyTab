@@ -1,44 +1,20 @@
 /**
  * MyTab —— Firefox 新标签页后台。
  *
- * 1) 新标签页重定向：Firefox 不支持 chrome_url_overrides.newtab，
- *    监听新标签创建，把 about:newtab / about:home 重定向到扩展内置的 index.html。
- * 2) 网站图标抓取：借助 host_permissions 读取目标网页 HTML，
- *    解析 <link rel="icon"> 找到真实图标地址并转成 dataURL 返回给页面缓存。
+ * 1) 新标签页接管：manifest.json 用 chrome_url_overrides.newtab 声明，
+ *    Firefox 自己把 about:newtab 指向扩展内置的 index.html（Firefox 54+ 支持）。
+ *    这里不再监听 tabs.onCreated / tabs.onUpdated 做重定向 —— 那种做法会让
+ *    浏览器先闪一下默认新标签页再跳走，而且需要额外的 "tabs" 权限。
+ * 2) 网站图标抓取：可选主机权限（optional_host_permissions）拿到授权后，
+ *    读取目标网页 HTML，解析 <link rel="icon"> 找到真实图标地址并转成 dataURL 返回给页面缓存。
  * 3) 无痕窗口打开、收藏到书签。
  */
 (function () {
   'use strict';
 
-  /* ---------- 1. 新标签页重定向 ---------- */
-  var NEWTAB_PREFIXES = ['about:newtab', 'about:home'];
-
-  function isNewTabUrl(url) {
-    if (typeof url !== 'string' || !url) return false;
-    for (var i = 0; i < NEWTAB_PREFIXES.length; i++) {
-      if (url.indexOf(NEWTAB_PREFIXES[i]) === 0) return true;
-    }
-    return false;
-  }
-
-  function redirectIfNeeded(tab) {
-    if (!tab || typeof tab.id !== 'number') return;
-    if (!isNewTabUrl(tab.url)) return;
-    try {
-      browser.tabs.update(tab.id, { url: browser.runtime.getURL('index.html') });
-    } catch (e) {
-      /* 忽略：标签可能在重定向前被关闭 */
-    }
-  }
-
-  browser.tabs.onCreated.addListener(function (tab) {
-    // 刚创建的 about:newtab 有时还没有 url，交给 onUpdated 兜底
-    if (tab.url) redirectIfNeeded(tab);
-  });
-
-  browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo && changeInfo.url) redirectIfNeeded(tab);
-  });
+  /* ---------- 1. 新标签页接管 ---------- */
+  /* chrome_url_overrides.newtab 已在 manifest.json 中声明，这里无需任何代码。
+   * 需要在扩展里打开设置页时，用 browser.runtime.getURL('index.html') 即可。 */
 
   /* ---------- 2. 网站图标抓取 ---------- */
   var iconCache = new Map();
@@ -99,7 +75,22 @@
     return out;
   }
 
+  /* 抓图标需要主机权限（manifest 里是 optional_host_permissions，按需申请）。
+   * 没授权就直接返回 null，让页面走 <img> 直连 /favicon.ico 的回退路径。 */
+  function hasHostPermission(pageUrl) {
+    try {
+      var u = new URL(pageUrl);
+      var pattern = '*://' + u.host + '/*';
+      return browser.permissions.contains({ origins: [pattern] }).then(function (ok) {
+        return !!ok;
+      }).catch(function () { return false; });
+    } catch (e) { return Promise.resolve(false); }
+  }
+
   async function loadIcon(pageUrl) {
+    var allowed = await hasHostPermission(pageUrl);
+    if (!allowed) return null;
+
     var base = pageUrl;
     var candidates = [];
     try {

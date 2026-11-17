@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MyTab 新标签页",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "description": "本地、快速、零账号、零追踪的新标签页：时钟、问候、搜索、常用网站磁贴，支持 WeTab 风格左侧图标分组栏与分组 tooltip。",
   "icons": {
     "48": "icons/icon-48.png",
@@ -11,12 +11,25 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["tabs", "bookmarks", "clipboardWrite"],
-  "host_permissions": ["<all_urls>"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "chrome_settings_overrides": {
+    "homepage": "index.html"
+  },
+  "permissions": ["bookmarks", "clipboardWrite"],
+  "optional_host_permissions": ["*://*/*"],
   "browser_specific_settings": {
     "gecko": {
       "id": "mytab@local.mytab",
-      "strict_min_version": "128.0"
+      "strict_min_version": "140.0",
+      "update_url": "https://github.com/Albertzc/MyTab/releases/latest/download/updates.json",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   }
 }
