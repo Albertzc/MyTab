@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MyTab 新标签页",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "本地、快速、零账号、零追踪的新标签页：时钟、问候、搜索、常用网站磁贴，支持 WeTab 风格左侧图标分组栏与分组 tooltip。",
   "icons": {
     "48": "icons/icon-48.png",

@@ -3,7 +3,7 @@
 一个**纯本地**的 Firefox 新标签页：时钟、问候、搜索、常用网站磁贴、WeTab 风格文件夹分组。
 零账号、零追踪、无广告，所有数据只存在你的浏览器里。
 
-## 功能（v3.1.0）
+## 功能（v3.1.1）
 
 | 模块 | 功能 |
 |---|---|
@@ -32,7 +32,7 @@ manifest.json     Firefox 扩展清单
 background.js     图标抓取 + 无痕窗口/书签（新标签页接管已交给 manifest，见「原理」）
 icons/            扩展图标（48/96/128）
 icons/groups/     分组图标 SVG 原始文件 + manifest.json
-mytab-3.1.0.xpi   打包好的 Firefox 扩展（v3.1.0）
+mytab-3.1.1.xpi   打包好的 Firefox 扩展（v3.1.1）
 updates.json      Firefox 自动更新清单（配合 manifest 里的 update_url）
 AMO-LISTING.md    提交到 addons.mozilla.org 的逐字段文案
 PRIVACY.md        隐私政策
@@ -120,7 +120,7 @@ ESR 是官方发布的长期支持版，**允许安装未签名扩展**（`MOZ_R
    // SCOPE_PROFILE = 1（见 AddonManager.sys.mjs）
    user_pref("extensions.startupScanScopes", 1);
    ```
-8. 装 MyTab：`about:addons` → 齿轮 →「从文件安装附加组件…」→ 选 `mytab-3.1.0.xpi`
+8. 装 MyTab：`about:addons` → 齿轮 →「从文件安装附加组件…」→ 选 `mytab-3.1.1.xpi`
 9. 之后每次升级扩展：把新的 xpi 拖进 ESR 的 `about:addons` 窗口即可覆盖安装
 
 **验证持久生效**：关掉 ESR → 重新打开 → 按 `Ctrl+T`，新标签页应直接显示 MyTab，且 `about:addons` 里 MyTab 仍是「已启用」。
@@ -496,11 +496,12 @@ v1.1/1.2 的修复：
 - v2.0.0 默认背景 + 全部恢复默认回归 **16 项全部通过**（jsdom）：**默认背景是 ocean（第二个渐变）**、渐变色块第二个被标记选中、**「恢复默认」按钮也回到 ocean**；**「全部恢复默认」把主题 / 每页布局 / 名称开关 / 背景 / 编辑覆盖 / 隐藏列表 / 自定义引擎 / 分组 / 磁贴全部打回出厂值**（分组只剩「常用」、磁贴回到 11 个、5 个 AI 都在、时钟回到 24 小时制、默认引擎回到 Bing）；**取消确认框时不重置**。
 - 当前 jsdom 用例合计 **181 项**（原 59 + v1.6.0 新增 47 + v1.7.0 新增 11 + v1.8.0 新增 45 + v1.9.0 新增 16 + v2.0.0 新增 20，v2.0.0 期间因 AI 功能下线净增 19）。
 - **v3.0.0 AMO 整改回归全部通过**：
-  - `addons-linter`（**与 AMO 服务端同一套校验器**）对 `mytab-3.1.0.xpi`：**自托管模式 0 error / 0 warning / 0 notice**；
+  - `addons-linter`（**与 AMO 服务端同一套校验器**）对 `mytab-3.1.1.xpi`：**自托管模式 0 error / 0 warning / 0 notice**；
     公开上架模式仅剩 `MANIFEST_UPDATE_URL` 一条（那条是「Mozilla 托管的扩展不允许带 update_url」，自托管本来就该带）。
   - 原有 **181 + 23 + 14 + 15 = 233 项**回归用例全部仍然通过（改的是权限与接管机制，**没动任何 localStorage 键名和 DOM 结构**，老用户数据可直接沿用）。
   - `node --check app.js` / `node --check background.js` 通过；`manifest.json` 为合法 JSON。
   - 语义化版本判定：本轮因 **manifest 权限 + host 权限 + browser_specific_settings 三项都变了**，脚本自动判定为 **major**（2.0.1 → 3.0.0），与预期一致。
+- **v3.1.1 设置页调整回归通过**：原「数据备份」与「重置」合并为「数据管理」（恢复默认 / 导出配置 / 导入配置）；背景区块的「恢复默认」按钮移除，统一由恢复默认处理；「关于」移至设置面板底部并更新文案。`addons-linter` 自托管 **0 error / 0 warning / 0 notice**；浏览器实测设置面板区块顺序、按钮顺序与文案正确，控制台无报错。
 - 版本判定的单元测试 **15 项全部通过**（`python .iconfont/test/test-semver.py`）：纯样式 → patch、新增设置项 → minor、移除设置项 → major、删掉仍在引用的 DOM id → major、移除后台消息类型但页面在用 → major、运行时无差异 → 不产生版本。
 - 回归可用 `MYTAB_ROOT` 指定被测项目根目录（默认取仓库自身），便于把测试放到别处运行。
 - 图标相关脚本都在 `.iconfont/`（不属于扩展运行时，详见 [.iconfont/README.md](.iconfont/README.md)）：`build-group-icons.py` 生成图标资源并重写 `app.js` 的 `GROUP_ICONS` 段；`build-xpi.py` 打包 xpi；`test/test.mjs` 是上面的 jsdom 回归（`cd .iconfont/test && pnpm install && node test.mjs`）；`test/test-zip.mjs` 是备份压缩包的回归；`test/test-e2e.mjs` 是导出→导入的端到端演练；`test/test-semver.py` 是版本判定单元测试；`test/render-preview.mjs` 生成 `.preview/group-icons.png` 图标总览图。

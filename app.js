@@ -1,4 +1,4 @@
-/* ================= MyTab v3.1.0 =================
+/* ================= MyTab v3.1.1 =================
  * 纯本地、零依赖的新标签页。
  * 数据全部保存在 localStorage；不发起任何统计/上报请求。
  */
@@ -2774,10 +2774,6 @@
       };
       reader.readAsDataURL(f);
       $fileInput.value = '';
-    });
-    $('bgReset').addEventListener('click', function () {
-      settings.bg = { type: 'gradient', id: DEFAULT_GRADIENT };
-      save(); applyBackground();
     });
 
     $('snavAdd').addEventListener('click', function () { openGroupDialog('add'); });
