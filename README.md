@@ -20,8 +20,6 @@
 | 数据 | 全部保存在浏览器 localStorage；无账号、无上传 |
 | 快捷键 | `/` 聚焦搜索框；`Esc` 关闭面板/弹窗/右键菜单 |
 
-> 分组功能的设计与交互定义见 [原型设计-分组.md](原型设计-分组.md)，可交互原型见 `prototype-groups.html`（保留 v2.1 侧栏形态用于对照；正式页面已改为 v2.3 简化侧栏）。
-
 ## 文件结构
 
 ```
@@ -34,13 +32,7 @@ icons/            扩展图标（48/96/128）
 icons/groups/     分组图标 SVG 原始文件 + manifest.json
 mytab-3.1.1.xpi   打包好的 Firefox 扩展（v3.1.1）
 updates.json      Firefox 自动更新清单（配合 manifest 里的 update_url）
-AMO-LISTING.md    提交到 addons.mozilla.org 的逐字段文案
 PRIVACY.md        隐私政策
-prototype.html    原型留档（v1 布局历史版本）
-prototype-groups.html 分组功能可交互原型
-原型设计.md        原型设计文档
-原型设计-分组.md   分组功能原型设计文档
-功能清单.md        功能选型清单（市场调研）
 README.md         本文件
 ```
 
@@ -152,8 +144,7 @@ ESR 是官方发布的长期支持版，**允许安装未签名扩展**（`MOZ_R
 > | 数据收集声明 | `data_collection_permissions: { "required": ["none"] }` |
 > | 自动更新 | `update_url` 指向 GitHub Release 的 `updates.json` |
 >
-> 提交步骤、listing 文案、Reviewer Notes 全部写在 [AMO-LISTING.md](AMO-LISTING.md)，
-> 隐私说明在 [PRIVACY.md](PRIVACY.md)。
+> 隐私说明在 [PRIVACY.md](PRIVACY.md)；提交步骤与 listing 文案属于本地发布资料，不随仓库提交。
 >
 > 已用 AMO 自己的校验器（`addons-linter`，与 AMO 服务端同一套）验证：**0 error、0 warning**。
 
@@ -472,7 +463,7 @@ v1.1/1.2 的修复：
 
 ## 开发校验
 
-- `app.js`、`background.js` 通过 `node --check` 语法校验；`manifest.json` 为合法 JSON；`prototype-groups.html` 内联脚本通过语法校验。
+- `app.js`、`background.js` 通过 `node --check` 语法校验；`manifest.json` 为合法 JSON。
 - 页面无内联脚本（符合扩展 CSP）；CSS 花括号平衡；JS 引用的 DOM 元素 ID 与 HTML 一一对应。
 - 页面为单页纯静态实现，无构建步骤、无运行时依赖。
 - 分组功能在 v1.4.1 回归过 25 项主流程：新建 / 删除分组、主页与分组切换、右键子菜单换组、拖拽换组、分组排序、主页直接加磁贴；另验证 v1.3.1 老数据迁移与多页分组拖拽（只重排当前页，页外顺序不变）。

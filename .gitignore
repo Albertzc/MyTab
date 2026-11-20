@@ -27,3 +27,16 @@ desktop.ini
 *Recovery-Key*.txt
 *authentication codes*.txt
 *.mozilla-accounts
+
+# 发布/上架材料与设计资料：仅本地保留，不进仓库
+AMO-LISTING.md
+AMO-上传发布指南.md
+功能清单.md
+原型设计.md
+原型设计-分组.md
+prototype*.html
+design/
+
+# 本地工作笔记与分享包
+project_memory.md
+.trae-html-share-packages/
