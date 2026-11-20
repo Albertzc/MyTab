@@ -1,0 +1,67 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 读取 manifest 版本
+        id: ver
+        shell: bash
+        run: |
+          VERSION=$(python -c "import json;print(json.load(open('manifest.json',encoding='utf-8'))['version'])")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "版本：$VERSION"
+
+      - name: 校验 tag 与 manifest 版本一致
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "v${{ steps.ver.outputs.version }}" ]; then
+            echo "tag ${GITHUB_REF_NAME} 与 manifest 版本 v${{ steps.ver.outputs.version }} 不一致" >&2
+            exit 1
+          fi
+
+      - name: 打包（未签名 xpi + 源代码包）
+        shell: bash
+        run: python .iconfont/build-xpi.py --no-bump --source-zip
+
+      - name: 创建或更新 Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: |
+          XPI="mytab-$VERSION.xpi"
+          SRC=".preview/mytab-$VERSION-source.zip"
+          NOTES=$(cat <<EOF
+          MyTab $VERSION（未签名构建）
+
+          - 资产：$XPI、$(basename "$SRC")
+          - 该包未经过 AMO 签名，仅用于测试；正式分发请替换为 AMO 签名包
+          - 未上传 updates.json：签名后按 AMO 上传指南用 --signed-xpi 重算再上传
+          EOF
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$XPI" "$SRC" --clobber
+          else
+            gh release create "$TAG" "$XPI" "$SRC" --title "MyTab $VERSION" --notes "$NOTES"
+          fi
