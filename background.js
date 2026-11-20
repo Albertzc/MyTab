@@ -107,7 +107,9 @@
       var u = new URL(pageUrl);
       candidates.push(u.origin + '/favicon.ico');
       candidates.push(u.origin + '/favicon.png');
+      candidates.push(u.origin + '/favicon.svg');
       candidates.push(u.origin + '/apple-touch-icon.png');
+      candidates.push(u.origin + '/apple-touch-icon-precomposed.png');
     } catch (e2) { return null; }
 
     for (var i = 0; i < candidates.length; i++) {

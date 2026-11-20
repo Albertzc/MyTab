@@ -1,4 +1,4 @@
-/* ================= MyTab v3.0.1 =================
+/* ================= MyTab v3.1.0 =================
  * 纯本地、零依赖的新标签页。
  * 数据全部保存在 localStorage；不发起任何统计/上报请求。
  */
@@ -10,8 +10,8 @@
   var FAV_KEY = 'mytab.favicon.v1';
 
   var DEFAULT_ENGINES = [
-    { id: 'bing',   name: 'Bing',   url: 'https://www.bing.com/search?q={q}', builtin: true },
     { id: 'baidu',  name: '百度',   url: 'https://www.baidu.com/s?wd={q}', builtin: true },
+    { id: 'bing',   name: 'Bing',   url: 'https://www.bing.com/search?q={q}', builtin: true },
     { id: 'google', name: 'Google', url: 'https://www.google.com/search?q={q}', builtin: true },
     { id: 'zhihu',  name: '知乎',   url: 'https://www.zhihu.com/search?type=content&q={q}', builtin: true }
   ];
@@ -19,22 +19,22 @@
   /* AI 助手：网页版对话不支持传参（拿不到搜索词），所以不做成「搜索引擎」，
    * 而是直接作为普通网站磁贴放在「常用」分组里，点开就是对话页。 */
   var AI_TILES = [
-    { id: 'ai-deepseek', name: 'DeepSeek', url: 'https://chat.deepseek.com/' },
-    { id: 'ai-minimax',  name: 'MiniMax',  url: 'https://agent.minimax.cn/' },
-    { id: 'ai-doubao',   name: '豆包',     url: 'https://www.doubao.com/chat/' },
-    { id: 'ai-kimi',     name: 'Kimi',     url: 'https://kimi.moonshot.cn/' },
-    { id: 'ai-qwen',     name: '通义千问', url: 'https://www.tongyi.com/' }
+    { id: 'ai-deepseek', name: 'DeepSeek',   url: 'https://chat.deepseek.com/' },
+    { id: 'ai-zhipu',    name: '智谱清言',   url: 'https://chatglm.cn/' },
+    { id: 'ai-kimi',     name: 'Kimi',       url: 'https://kimi.moonshot.cn/' },
+    { id: 'ai-minimax',  name: 'MiniMax',    url: 'https://agent.minimax.cn/' },
+    { id: 'ai-doubao',   name: '豆包',       url: 'https://www.doubao.com/chat/' },
+    { id: 'ai-qwen',     name: '通义千问',   url: 'https://www.tongyi.com/' }
   ];
 
   /* 配置备份文件的格式标记 */
   var BACKUP_FORMAT = 'mytab.backup.v1';
 
   var DEFAULT_TILES = [
+    { id: 'github',   name: 'GitHub',   url: 'https://github.com',       icon: 'auto' },
     { id: 'bilibili', name: '哔哩哔哩', url: 'https://www.bilibili.com', icon: 'auto' },
     { id: 'zhihu',    name: '知乎',     url: 'https://www.zhihu.com',    icon: 'auto' },
-    { id: 'github',   name: 'GitHub',   url: 'https://github.com',       icon: 'auto' },
     { id: 'douban',   name: '豆瓣',     url: 'https://www.douban.com',   icon: 'auto' },
-    { id: 'weibo',    name: '微博',     url: 'https://weibo.com',        icon: 'auto' },
     { id: 'juejin',   name: '掘金',     url: 'https://juejin.cn',        icon: 'auto' }
   ].concat(AI_TILES.map(function (a) {
     return { id: a.id, name: a.name, url: a.url, icon: 'auto' };
@@ -369,6 +369,31 @@
     return browser.permissions.request({ origins: [origin] }).then(function (granted) {
       return !!granted;
     }).catch(function () { return false; });
+  }
+  /* 一次性申请「所有站点」的主机权限（必须在点击事件里同步调用）。
+   * 只有拿到它，后台脚本才能读取网页 HTML 解析 <link rel=icon>；
+   * 否则只能盲猜根目录 /favicon.ico，DeepSeek、豆包这类 SPA 站点基本拿不到图标。 */
+  function requestAllHostPermission() {
+    if (!hasExtension() || !browser.permissions || !browser.permissions.request) return Promise.resolve(false);
+    return browser.permissions.request({ origins: ['*://*/*'] }).then(function (granted) {
+      return !!granted;
+    }).catch(function () { return false; });
+  }
+  function hasAllHostPermission() {
+    if (!hasExtension() || !browser.permissions || !browser.permissions.contains) return Promise.resolve(false);
+    return browser.permissions.contains({ origins: ['*://*/*'] }).then(function (ok) {
+      return !!ok;
+    }).catch(function () { return false; });
+  }
+  /* 授权后重试所有尚未缓存的图标：清掉 pending 标记，避免旧的失败回退挡住重试 */
+  function retryAllFavicons() {
+    tiles.forEach(function (t) {
+      var h = hostOf(t.url);
+      if (!h || t.icon === 'letter' || favCache[h]) return;
+      delete pendingFav[h];
+      ensureFaviconCached(t, h);
+    });
+    renderGroups();
   }
   function perPageCount() {
     return Math.max(1, (settings.pageRows || 1) * (settings.pageCols || 7));
@@ -1670,7 +1695,7 @@
     var msg = '确定要把所有配置恢复为默认吗？\n\n' +
       '· 外观设置（主题 / 时间制 / 背景 / 每页布局）全部重置\n' +
       '· 分组重置为只有一个「常用」分组\n' +
-      '· 磁贴重置为默认的 ' + DEFAULT_TILES.length + ' 个（含 5 个 AI 对话站）\n' +
+      '· 磁贴重置为默认的 ' + DEFAULT_TILES.length + ' 个（含 ' + AI_TILES.length + ' 个 AI 对话站）\n' +
       '· 自定义搜索引擎全部删除，被删掉的内置引擎恢复\n\n' +
       '当前配置会被清空，**无法撤销**。\n建议先「导出配置」留一份备份。\n\n确定要恢复默认吗？';
     if (!confirm(msg)) return;
@@ -2605,12 +2630,20 @@
       return;
     }
 
-    tiles.push({ id: 't' + Date.now(), name: name, url: url, icon: icon, groupId: gid });
+    var newTile = { id: 't' + Date.now(), name: name, url: url, icon: icon, groupId: gid };
+    tiles.push(newTile);
     save();
     /* 顺带申请这个站点的主机权限（可选权限，用户可拒绝）：
      * 授权后后台能读页面 HTML 解析 <link rel=icon>，拿到更准的图标；
      * 不授权也不影响使用 —— 图标回退到 <img> 直连 /favicon.ico，再退到首字母色块。 */
-    requestHostPermission(url);
+    requestHostPermission(url).then(function (granted) {
+      if (!granted) return;
+      var h = hostOf(url);
+      if (!h || favCache[h]) return;
+      // 首次渲染时权限还没批下来，抓取已失败；授权后立刻重试一次
+      delete pendingFav[h];
+      ensureFaviconCached(newTile, h);
+    });
     if (currentGroup !== ALL_GROUPS && gid === currentGroup) {
       // 留在当前分组，并翻到最后一页显示新磁贴
       currentPage = Math.max(0, Math.ceil(tilesOfGroup(gid).length / perPageCount()) - 1);
@@ -2644,6 +2677,21 @@
         x.classList.toggle('active', x.dataset.hour === (settings.hour12 ? '12' : '24'));
       });
     }
+    syncFavPermBtn();
+  }
+  /* 图标授权按钮：根据当前权限状态切换文案 */
+  function syncFavPermBtn() {
+    var btn = $('favPermBtn');
+    if (!btn) return;
+    if (!hasExtension()) {
+      btn.disabled = true;
+      btn.textContent = '仅扩展内可用';
+      return;
+    }
+    btn.disabled = false;
+    hasAllHostPermission().then(function (ok) {
+      btn.textContent = ok ? '已授权 · 重新获取图标' : '授权获取图标';
+    });
   }
   function openPanel() {
     $('panel').classList.add('open');
@@ -2748,6 +2796,17 @@
       settings.showNames = this.checked;
       save(); applyNames();
       toast(settings.showNames ? '已显示磁贴名称' : '已隐藏磁贴名称');
+    });
+
+    var $favPermBtn = $('favPermBtn');
+    if ($favPermBtn) $favPermBtn.addEventListener('click', function () {
+      // 必须在点击事件里同步调用 request，否则 Firefox 会拒绝（要求用户手势）
+      requestAllHostPermission().then(function (ok) {
+        if (!ok) { toast('未授权：图标将继续回退为首字母'); return; }
+        retryAllFavicons();
+        syncFavPermBtn();
+        toast('已授权，正在重新获取图标');
+      });
     });
 
     $('exportBgToggle').addEventListener('change', function () {
